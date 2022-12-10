@@ -234,8 +234,6 @@ Scene::Scene(const char *xmlPath)
 			pTransformation = pTransformation->NextSiblingElement("Transformation");
 		}
 
-		mesh.numberOfTransformations = mesh.transformationIds.size();
-
 		// read mesh faces
 		char *row;
 		char *clone_str;
