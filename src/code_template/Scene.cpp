@@ -182,11 +182,11 @@ Scene::Scene(const char *xmlPath)
 	XMLElement *pRotation = pElement->FirstChildElement("Rotation");
 	while (pRotation != NULL)
 	{
-		Rotation *rotation = new Rotation();
+		Rotation rotation = Rotation();
 
-		pRotation->QueryIntAttribute("id", &rotation->rotationId);
+		pRotation->QueryIntAttribute("id", &rotation.rotationId);
 		str = pRotation->Attribute("value");
-		sscanf(str, "%lf %lf %lf %lf", &rotation->angle, &rotation->ux, &rotation->uy, &rotation->uz);
+		sscanf(str, "%lf %lf %lf %lf", &rotation.angle, &rotation.ux, &rotation.uy, &rotation.uz);
 
 		rotations.push_back(rotation);
 

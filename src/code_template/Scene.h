@@ -30,7 +30,7 @@ public:
     vector<Vec3*> vertices;
     vector<Color*> colorsOfVertices;
     vector<Scaling*> scalings;
-    vector<Rotation*> rotations;
+    vector<Rotation> rotations;
     vector<Translation> translations;
     vector<Mesh> meshes;
 
