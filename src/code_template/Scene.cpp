@@ -125,13 +125,13 @@ Scene::Scene(const char *xmlPath)
 
 	while (pVertex != NULL)
 	{
-		Vec3 *vertex = new Vec3();
+		Vec3 vertex = Vec3();
 		Color color = Color();
 
-		vertex->colorId = vertexId;
+		vertex.colorId = vertexId;
 
 		str = pVertex->Attribute("position");
-		sscanf(str, "%lf %lf %lf", &vertex->x, &vertex->y, &vertex->z);
+		sscanf(str, "%lf %lf %lf", &vertex.x, &vertex.y, &vertex.z);
 
 		str = pVertex->Attribute("color");
 		sscanf(str, "%lf %lf %lf", &color.r, &color.g, &color.b);

@@ -27,7 +27,7 @@ public:
 
     vector<vector<Color> > image;
     vector<Camera> cameras;
-    vector<Vec3*> vertices;
+    vector<Vec3> vertices;
     vector<Color> colorsOfVertices;
     vector<Scaling> scalings;
     vector<Rotation> rotations;
