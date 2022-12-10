@@ -254,7 +254,6 @@ Scene::Scene(const char *xmlPath)
 			}
 			row = strtok(nullptr, "\n");
 		}
-		mesh.numberOfTriangles = mesh.triangles.size();
 		meshes.push_back(mesh);
 
 		pMesh = pMesh->NextSiblingElement("Mesh");
