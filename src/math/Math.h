@@ -2,7 +2,7 @@
 #ifndef CENG477_RAYTRACER_MATH_H
 #define CENG477_RAYTRACER_MATH_H
 
-#include "float3.h"
+#include "double3.h"
 #include <cmath>
 #include <limits>
 
@@ -15,12 +15,12 @@ namespace Rasterizer {
         constexpr static const float Epsilon = 0.0001f;
 
         __attribute__((always_inline))
-        static float3 Cross(float3 x, float3 y) {
+        static double3 Cross(double3 x, double3 y) {
             return (x * y.yzx() - x.yzx() * y).yzx();
         }
 
         __attribute__((always_inline))
-        static float Dot(float3 x, float3 y) {
+        static float Dot(double3 x, double3 y) {
             return x.x * y.x + x.y * y.y + x.z * y.z;
         }
 
@@ -30,8 +30,8 @@ namespace Rasterizer {
         }
 
         __attribute__((always_inline))
-        static float3 Min(float3 x, float3 y) {
-            return float3(Min(x.x, y.x), Min(x.y, y.y), Min(x.z, y.z));
+        static double3 Min(double3 x, double3 y) {
+            return double3(Min(x.x, y.x), Min(x.y, y.y), Min(x.z, y.z));
         }
 
         __attribute__((always_inline))
@@ -40,42 +40,42 @@ namespace Rasterizer {
         }
 
         __attribute__((always_inline))
-        static float3 Max(float3 x, float3 y) {
-            return float3(Max(x.x, y.x), Max(x.y, y.y), Max(x.z, y.z));
+        static double3 Max(double3 x, double3 y) {
+            return double3(Max(x.x, y.x), Max(x.y, y.y), Max(x.z, y.z));
         }
 
         __attribute__((always_inline))
-        static float3 Rcp(float3 x) {
+        static double3 Rcp(double3 x) {
             return 1.0f / x;
         }
 
         __attribute__((always_inline))
-        static float Length(float3 x) {
+        static float Length(double3 x) {
             return sqrt(Dot(x, x));
         }
 
         __attribute__((always_inline))
-        static float LengthSq(float3 v) {
+        static float LengthSq(double3 v) {
             return Dot(v, v);
         }
 
         __attribute__((always_inline))
-        static float DistanceSq(float3 x, float3 y) {
+        static float DistanceSq(double3 x, double3 y) {
             return LengthSq(y - x);
         }
 
         __attribute__((always_inline))
-        static bool IsLengthEqual(float3 v, float length) {
+        static bool IsLengthEqual(double3 v, float length) {
             return abs(LengthSq(v) - length * length) < Epsilon;
         }
 
         __attribute__((always_inline))
-        static bool IsNormalized(float3 v) {
+        static bool IsNormalized(double3 v) {
             return IsLengthEqual(v, 1.0f);
         }
 
         __attribute__((always_inline))
-        static float3 Normalize(float3 x) {
+        static double3 Normalize(double3 x) {
             return Rsqrt(Dot(x, x)) * x;
         }
 
@@ -95,7 +95,7 @@ namespace Rasterizer {
         }
 
         __attribute__((always_inline))
-        static bool IsNonNegative(float3 x) {
+        static bool IsNonNegative(double3 x) {
             return x.x >= 0 && x.y >= 0 && x.z >= 0;
         }
 

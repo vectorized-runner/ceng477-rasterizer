@@ -10,70 +10,70 @@ using namespace std;
 namespace Rasterizer {
 
 
-    struct float3 {
-        float x;
-        float y;
-        float z;
+    struct double3 {
+        double x;
+        double y;
+        double z;
 
         __attribute__((always_inline))
-        float3() {
+        double3() {
             this->x = 0;
             this->y = 0;
             this->z = 0;
         }
 
         __attribute__((always_inline))
-        float3(float a) {
+        double3(float a) {
             this->x = a;
             this->y = a;
             this->z = a;
         }
 
         __attribute__((always_inline))
-        float3(float x, float y, float z) {
+        double3(float x, float y, float z) {
             this->x = x;
             this->y = y;
             this->z = z;
         }
 
         __attribute__((always_inline))
-        float3 yzx() const {
-            return float3(y, z, x);
+        double3 yzx() const {
+            return double3(y, z, x);
         }
 
         __attribute__((always_inline))
-        float3 operator+(float3 other) const {
-            return float3(x + other.x, y + other.y, z + other.z);
+        double3 operator+(double3 other) const {
+            return double3(x + other.x, y + other.y, z + other.z);
         }
 
         __attribute__((always_inline))
-        float3 operator-(float3 other) const {
-            return float3(x - other.x, y - other.y, z - other.z);
+        double3 operator-(double3 other) const {
+            return double3(x - other.x, y - other.y, z - other.z);
         }
 
         __attribute__((always_inline))
-        float3 operator*(float3 other) const {
-            return float3(x * other.x, y * other.y, z * other.z);
+        double3 operator*(double3 other) const {
+            return double3(x * other.x, y * other.y, z * other.z);
         }
 
         __attribute__((always_inline))
-        float3 operator*(float other) const {
-            return float3(x * other, y * other, z * other);
+        double3 operator*(float other) const {
+            return double3(x * other, y * other, z * other);
         }
 
         __attribute__((always_inline))
-        float3 operator/(float3 other) const {
-            return float3(x / other.x, y / other.y, z / other.z);
+        double3 operator/(double3 other) const {
+            return double3(x / other.x, y / other.y, z / other.z);
         }
 
         __attribute__((always_inline))
-        float3 operator/(float other) const {
-            return float3(x / other, y / other, z / other);
+        double3 operator/(float other) const {
+            return double3(x / other, y / other, z / other);
         }
 
         __attribute__((always_inline))
-        float3 operator-() const {
-            return float3(-x, -y, -z);
+        double3 operator-() const {
+            return double3(-x, -y, -z);
         }
 
         __attribute__((always_inline))
@@ -83,13 +83,13 @@ namespace Rasterizer {
     };
 
     __attribute__((always_inline))
-    static float3 operator/(float f, float3 v) {
-        return float3(f / v.x, f / v.y, f / v.z);
+    static double3 operator/(float f, double3 v) {
+        return double3(f / v.x, f / v.y, f / v.z);
     }
 
     __attribute__((always_inline))
-    static float3 operator*(float f, float3 v) {
-        return float3(f * v.x, f * v.y, f * v.z);
+    static double3 operator*(float f, double3 v) {
+        return double3(f * v.x, f * v.y, f * v.z);
     }
 
 } // Rasterizer
