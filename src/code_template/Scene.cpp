@@ -19,8 +19,12 @@
 #include <iomanip>
 #include <cmath>
 
+#include "../Render.h"
+#include "../math/Math.h"
+
 using namespace tinyxml2;
 using namespace std;
+using namespace Rasterizer;
 
 /*
 	Transformations, clipping, culling, rasterization are done here.
@@ -28,6 +32,64 @@ using namespace std;
 */
 void Scene::forwardRenderingPipeline(const Camera& camera)
 {
+    Render::DrawLine(image, int2(0, 0), int2(500, 500), double3(0, 0, 255), double3(255, 0, 0));
+
+    auto meshCount = meshes.size();
+    for (int i = 0; i < meshCount; ++i) {
+        const auto& mesh = meshes[i];
+
+        if(mesh.type == 0){
+            // Wireframe
+
+            auto triangleCount = mesh.triangles.size();
+            for (int j = 0; j < triangleCount; ++j) {
+                const auto& tri = mesh.triangles[j];
+
+                auto v0 = vertices[tri.vertexIds[0] - 1];
+                auto v1 = vertices[tri.vertexIds[1] - 1];
+
+                // auto v0 = vertices[]
+
+                // TODO: Fetch vertices
+                // TODO: Apply transformations
+                // TODO: Draw
+                // TODO: Profit
+            }
+        }
+        else if(mesh.type == 1){
+            // TODO:
+            cout << "Solid mesh not implemented yet." << endl;
+        }
+        else{
+            cout << "Error, Unexpected Mesh Type: " << mesh.type << endl;
+        }
+
+    }
+
+//    for(int x = 0; x < 300; x++){
+//        Render::DrawColor(image, int2(x, 100), Color(255, 0, 0));
+//    }
+//
+//    for(int y = 600; y > 300; y--){
+//        Render::DrawColor(image, int2(500, y), Color(255, 255, 0));
+//    }
+
+    // TODO: Change pointers to non-pointer ones.
+
+    cout << "Gaze: " << camera.gaze << endl;
+    cout << "u: " << camera.u << endl;
+    cout << "v: " << camera.v << endl;
+    cout << "w: " << camera.w << endl;
+    cout << "HorizontalResolution: " << camera.horRes << endl;
+    cout << "VerticalResolution: " << camera.verRes << endl;
+    cout << "Projection:" << camera.projectionType << endl;
+    cout << "Far: " << camera.far << endl;
+    cout << "Near: " << camera.near << endl;
+
+    cout << "CullingEnabled: " << cullingEnabled << endl;
+    cout << "VertexCount: " << vertices.size() << endl;
+    cout << "MeshCount:" << meshes.size() << endl;
+
 	// TODO: Implement this function.
     cout << "Forward Rendering Begin" << endl;
 
