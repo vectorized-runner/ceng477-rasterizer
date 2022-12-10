@@ -2,12 +2,9 @@
 #pragma ide diagnostic ignored "cert-err34-c"
 #pragma ide diagnostic ignored "readability-convert-member-functions-to-static"
 #include <iostream>
-#include <iomanip>
 #include <cstdlib>
 #include <cstring>
 #include <fstream>
-#include <cmath>
-
 #include "Scene.h"
 #include "Camera.h"
 #include "Color.h"
@@ -19,6 +16,8 @@
 #include "Vec3.h"
 #include "tinyxml2.h"
 #include "Helpers.h"
+#include <iomanip>
+#include <cmath>
 
 using namespace tinyxml2;
 using namespace std;
