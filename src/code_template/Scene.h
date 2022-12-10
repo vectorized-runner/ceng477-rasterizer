@@ -27,7 +27,7 @@ public:
 	bool cullingEnabled;
 
 	vector< vector<Color> > image;
-	vector< Camera* > cameras;
+	vector<Camera> cameras;
 	vector< Vec3* > vertices;
 	vector< Color* > colorsOfVertices;
 	vector< Scaling* > scalings;
@@ -37,10 +37,10 @@ public:
 
 	Scene(const char *xmlPath);
 
-	void initializeImage(Camera* camera);
-	void forwardRenderingPipeline(Camera* camera);
+	void initializeImage(const Camera& camera);
+	void forwardRenderingPipeline(const Camera& camera);
 	int makeBetweenZeroAnd255(double value);
-	void writeImageToPPMFile(Camera* camera);
+	void writeImageToPPMFile(const Camera& camera);
 	void convertPPMToPNG(string ppmFileName, int osType);
 };
 

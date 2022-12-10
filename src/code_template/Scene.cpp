@@ -24,7 +24,7 @@ using namespace std;
 	Transformations, clipping, culling, rasterization are done here.
 	You may define helper functions.
 */
-void Scene::forwardRenderingPipeline(Camera *camera)
+void Scene::forwardRenderingPipeline(const Camera& camera)
 {
 	// TODO: Implement this function.
     cout << "Forward Rendering Begin" << endl;
@@ -69,49 +69,49 @@ Scene::Scene(const char *xmlPath)
 	XMLElement *camElement;
 	while (pCamera != NULL)
 	{
-		Camera *cam = new Camera();
+		Camera cam = Camera();
 
-		pCamera->QueryIntAttribute("id", &cam->cameraId);
+		pCamera->QueryIntAttribute("id", &cam.cameraId);
 
 		// read projection type
 		str = pCamera->Attribute("type");
 
 		if (strcmp(str, "orthographic") == 0) {
-			cam->projectionType = 0;
+			cam.projectionType = 0;
 		}
 		else {
-			cam->projectionType = 1;
+			cam.projectionType = 1;
 		}
 
 		camElement = pCamera->FirstChildElement("Position");
 		str = camElement->GetText();
-		sscanf(str, "%lf %lf %lf", &cam->pos.x, &cam->pos.y, &cam->pos.z);
+		sscanf(str, "%lf %lf %lf", &cam.pos.x, &cam.pos.y, &cam.pos.z);
 
 		camElement = pCamera->FirstChildElement("Gaze");
 		str = camElement->GetText();
-		sscanf(str, "%lf %lf %lf", &cam->gaze.x, &cam->gaze.y, &cam->gaze.z);
+		sscanf(str, "%lf %lf %lf", &cam.gaze.x, &cam.gaze.y, &cam.gaze.z);
 
 		camElement = pCamera->FirstChildElement("Up");
 		str = camElement->GetText();
-		sscanf(str, "%lf %lf %lf", &cam->v.x, &cam->v.y, &cam->v.z);
+		sscanf(str, "%lf %lf %lf", &cam.v.x, &cam.v.y, &cam.v.z);
 
-		cam->gaze = normalizeVec3(cam->gaze);
-		cam->u = crossProductVec3(cam->gaze, cam->v);
-		cam->u = normalizeVec3(cam->u);
+		cam.gaze = normalizeVec3(cam.gaze);
+		cam.u = crossProductVec3(cam.gaze, cam.v);
+		cam.u = normalizeVec3(cam.u);
 
-		cam->w = inverseVec3(cam->gaze);
-		cam->v = crossProductVec3(cam->u, cam->gaze);
-		cam->v = normalizeVec3(cam->v);
+		cam.w = inverseVec3(cam.gaze);
+		cam.v = crossProductVec3(cam.u, cam.gaze);
+		cam.v = normalizeVec3(cam.v);
 
 		camElement = pCamera->FirstChildElement("ImagePlane");
 		str = camElement->GetText();
 		sscanf(str, "%lf %lf %lf %lf %lf %lf %d %d",
-			   &cam->left, &cam->right, &cam->bottom, &cam->top,
-			   &cam->near, &cam->far, &cam->horRes, &cam->verRes);
+			   &cam.left, &cam.right, &cam.bottom, &cam.top,
+			   &cam.near, &cam.far, &cam.horRes, &cam.verRes);
 
 		camElement = pCamera->FirstChildElement("OutputName");
 		str = camElement->GetText();
-		cam->outputFileName = string(str);
+		cam.outputFileName = string(str);
 
 		cameras.push_back(cam);
 
@@ -262,17 +262,17 @@ Scene::Scene(const char *xmlPath)
 /*
 	Initializes image with background color
 */
-void Scene::initializeImage(Camera *camera)
+void Scene::initializeImage(const Camera& camera)
 {
     cout << "Initialize Image" << endl;
 
 	if (this->image.empty())
 	{
-		for (int i = 0; i < camera->horRes; i++)
+		for (int i = 0; i < camera.horRes; i++)
 		{
 			vector<Color> rowOfColors;
 
-			for (int j = 0; j < camera->verRes; j++)
+			for (int j = 0; j < camera.verRes; j++)
 			{
 				rowOfColors.push_back(this->backgroundColor);
 			}
@@ -282,9 +282,9 @@ void Scene::initializeImage(Camera *camera)
 	}
 	else
 	{
-		for (int i = 0; i < camera->horRes; i++)
+		for (int i = 0; i < camera.horRes; i++)
 		{
-			for (int j = 0; j < camera->verRes; j++)
+			for (int j = 0; j < camera.verRes; j++)
 			{
 				this->image[i][j].r = this->backgroundColor.r;
 				this->image[i][j].g = this->backgroundColor.g;
@@ -311,22 +311,24 @@ int Scene::makeBetweenZeroAnd255(double value)
 /*
 	Writes contents of image (Color**) into a PPM file.
 */
-void Scene::writeImageToPPMFile(Camera *camera)
+void Scene::writeImageToPPMFile(const Camera& camera)
 {
     cout << "Write PPM begin" << endl;
 
 	ofstream fout;
 
-	fout.open(camera->outputFileName.c_str());
+    cout << "Output File Name: " << camera.outputFileName.c_str() << endl;
+
+	fout.open(camera.outputFileName.c_str());
 
 	fout << "P3" << endl;
-	fout << "# " << camera->outputFileName << endl;
-	fout << camera->horRes << " " << camera->verRes << endl;
+	fout << "# " << camera.outputFileName << endl;
+	fout << camera.horRes << " " << camera.verRes << endl;
 	fout << "255" << endl;
 
-	for (int j = camera->verRes - 1; j >= 0; j--)
+	for (int j = camera.verRes - 1; j >= 0; j--)
 	{
-		for (int i = 0; i < camera->horRes; i++)
+		for (int i = 0; i < camera.horRes; i++)
 		{
 			fout << makeBetweenZeroAnd255(this->image[i][j].r) << " "
 				 << makeBetweenZeroAnd255(this->image[i][j].g) << " "
