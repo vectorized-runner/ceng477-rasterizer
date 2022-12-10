@@ -1,3 +1,0 @@
-/Users/bartubas/CLionProjects/ceng477-rasterizer/cmake-build-debug/CMakeFiles/ceng477_rasterizer.dir
-/Users/bartubas/CLionProjects/ceng477-rasterizer/cmake-build-debug/CMakeFiles/edit_cache.dir
-/Users/bartubas/CLionProjects/ceng477-rasterizer/cmake-build-debug/CMakeFiles/rebuild_cache.dir
