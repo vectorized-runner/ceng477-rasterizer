@@ -149,12 +149,12 @@ Scene::Scene(const char *xmlPath)
 	XMLElement *pTranslation = pElement->FirstChildElement("Translation");
 	while (pTranslation != NULL)
 	{
-		Translation *translation = new Translation();
+		Translation translation = Translation();
 
-		pTranslation->QueryIntAttribute("id", &translation->translationId);
+		pTranslation->QueryIntAttribute("id", &translation.translationId);
 
 		str = pTranslation->Attribute("value");
-		sscanf(str, "%lf %lf %lf", &translation->tx, &translation->ty, &translation->tz);
+		sscanf(str, "%lf %lf %lf", &translation.tx, &translation.ty, &translation.tz);
 
 		translations.push_back(translation);
 

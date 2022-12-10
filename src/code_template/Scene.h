@@ -31,7 +31,7 @@ public:
     vector<Color*> colorsOfVertices;
     vector<Scaling*> scalings;
     vector<Rotation*> rotations;
-    vector<Translation*> translations;
+    vector<Translation> translations;
     vector<Mesh> meshes;
 
     Scene(const char* xmlPath);
