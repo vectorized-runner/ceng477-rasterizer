@@ -46,7 +46,7 @@ namespace Rasterizer {
         }
 
         __attribute__((always_inline))
-        double4 operator*(float other) const {
+        double4 operator*(double other) const {
             return double4(x * other, y * other, z * other, w * other);
         }
 
