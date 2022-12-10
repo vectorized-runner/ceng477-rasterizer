@@ -8,14 +8,13 @@ using namespace std;
 
 Mesh::Mesh() {}
 
-Mesh::Mesh(int meshId, int type, int numberOfTransformations,
+Mesh::Mesh(int meshId, int type,
              vector<int> transformationIds,
              vector<char> transformationTypes,
              vector<Triangle> triangles)
 {
     this->meshId = meshId;
     this->type = type;
-    this->numberOfTransformations = numberOfTransformations;
 
     this->transformationIds = transformationIds;
     this->transformationTypes = transformationTypes;
@@ -35,7 +34,7 @@ ostream &operator<<(ostream &os, const Mesh &m)
         os << " solid(1) with ";
     }
 
-    os << fixed << setprecision(3) << m.numberOfTransformations << " transformations and " << m.triangles.size() << " triangles"
+    os << fixed << setprecision(3) << m.transformationIds.size() << " transformations and " << m.triangles.size() << " triangles"
        << endl << "\tTriangles are:" << endl << fixed << setprecision(0);
 
     for (int i = 0; i < m.triangles.size(); i++) {

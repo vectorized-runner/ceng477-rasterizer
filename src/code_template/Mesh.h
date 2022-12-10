@@ -13,13 +13,12 @@ class Mesh
 public:
     int meshId;
     int type; // 0 for wireframe, 1 for solid
-    int numberOfTransformations;
     vector<int> transformationIds;
     vector<char> transformationTypes;
     vector<Triangle> triangles;
 
     Mesh();
-    Mesh(int meshId, int type, int numberOfTransformations,
+    Mesh(int meshId, int type,
           vector<int> transformationIds,
           vector<char> transformationTypes,
           vector<Triangle> triangles);
