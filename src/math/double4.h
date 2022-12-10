@@ -4,7 +4,7 @@
 
 namespace Rasterizer {
 
-    class double4 {
+    struct double4 {
         double x;
         double y;
         double z;
