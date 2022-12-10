@@ -1,9 +1,9 @@
 #include <iostream>
 #include <string>
 #include <vector>
-#include "Scene.h"
-#include "Matrix4.h"
-#include "Helpers.h"
+#include "code_template/Scene.h"
+#include "code_template/Matrix4.h"
+#include "code_template/Helpers.h"
 
 using namespace std;
 
@@ -11,6 +11,8 @@ Scene *scene;
 
 int main(int argc, char *argv[])
 {
+    cout << "Start Running Rasterizer" << endl;
+
     if (argc != 2)
     {
         cout << "Please run the rasterizer as:" << endl
@@ -40,6 +42,8 @@ int main(int argc, char *argv[])
             // Change os_type to 1 or 2, after being sure that you have ImageMagick installed.
             scene->convertPPMToPNG(scene->cameras[i]->outputFileName, 99);
         }
+
+        cout << "Stop Running Rasterizer" << endl;
 
         return 0;
     }
