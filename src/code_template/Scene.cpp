@@ -339,32 +339,3 @@ void Scene::writeImageToPPMFile(const Camera& camera)
 	fout.close();
 }
 
-/*
-	Converts PPM image in given path to PNG file, by calling ImageMagick's 'convert' command.
-	os_type == 1 		-> Ubuntu
-	os_type == 2 		-> Windows
-	os_type == other	-> No conversion
-*/
-void Scene::convertPPMToPNG(string ppmFileName, int osType)
-{
-	string command;
-
-	// call command on Ubuntu
-	if (osType == 1)
-	{
-		command = "convert " + ppmFileName + " " + ppmFileName + ".png";
-		system(command.c_str());
-	}
-
-	// call command on Windows
-	else if (osType == 2)
-	{
-		command = "magick convert " + ppmFileName + " " + ppmFileName + ".png";
-		system(command.c_str());
-	}
-
-	// default action - don't do conversion
-	else
-	{
-	}
-}
