@@ -166,11 +166,11 @@ Scene::Scene(const char *xmlPath)
 	XMLElement *pScaling = pElement->FirstChildElement("Scaling");
 	while (pScaling != NULL)
 	{
-		Scaling *scaling = new Scaling();
+		Scaling scaling = Scaling();
 
-		pScaling->QueryIntAttribute("id", &scaling->scalingId);
+		pScaling->QueryIntAttribute("id", &scaling.scalingId);
 		str = pScaling->Attribute("value");
-		sscanf(str, "%lf %lf %lf", &scaling->sx, &scaling->sy, &scaling->sz);
+		sscanf(str, "%lf %lf %lf", &scaling.sx, &scaling.sy, &scaling.sz);
 
 		scalings.push_back(scaling);
 
