@@ -2,6 +2,7 @@
 #ifndef CENG477_RAYTRACER_MATH_H
 #define CENG477_RAYTRACER_MATH_H
 
+#include "double4x4.h"
 #include "double3.h"
 #include <cmath>
 #include <limits>
@@ -104,6 +105,14 @@ namespace Rasterizer {
             return Max(a, Min(b, x));
         }
 
+        static double4x4 mul(double4x4 a, double4x4 b)
+        {
+            return double4x4(
+                    a.c0 * b.c0.x + a.c1 * b.c0.y + a.c2 * b.c0.z + a.c3 * b.c0.w,
+                    a.c0 * b.c1.x + a.c1 * b.c1.y + a.c2 * b.c1.z + a.c3 * b.c1.w,
+                    a.c0 * b.c2.x + a.c1 * b.c2.y + a.c2 * b.c2.z + a.c3 * b.c2.w,
+                    a.c0 * b.c3.x + a.c1 * b.c3.y + a.c2 * b.c3.z + a.c3 * b.c3.w);
+        }
 
     };
 
