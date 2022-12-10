@@ -200,18 +200,18 @@ Scene::Scene(const char *xmlPath)
 	XMLElement *meshElement;
 	while (pMesh != NULL)
 	{
-		Mesh *mesh = new Mesh();
+		Mesh mesh = Mesh();
 
-		pMesh->QueryIntAttribute("id", &mesh->meshId);
+		pMesh->QueryIntAttribute("id", &mesh.meshId);
 
 		// read projection type
 		str = pMesh->Attribute("type");
 
 		if (strcmp(str, "wireframe") == 0) {
-			mesh->type = 0;
+			mesh.type = 0;
 		}
 		else {
-			mesh->type = 1;
+			mesh.type = 1;
 		}
 
 		// read mesh transformations
@@ -226,13 +226,13 @@ Scene::Scene(const char *xmlPath)
 			str = pTransformation->GetText();
 			sscanf(str, "%c %d", &transformationType, &transformationId);
 
-			mesh->transformationTypes.push_back(transformationType);
-			mesh->transformationIds.push_back(transformationId);
+			mesh.transformationTypes.push_back(transformationType);
+			mesh.transformationIds.push_back(transformationId);
 
 			pTransformation = pTransformation->NextSiblingElement("Transformation");
 		}
 
-		mesh->numberOfTransformations = mesh->transformationIds.size();
+		mesh.numberOfTransformations = mesh.transformationIds.size();
 
 		// read mesh faces
 		char *row;
@@ -248,11 +248,11 @@ Scene::Scene(const char *xmlPath)
 			int result = sscanf(row, "%d %d %d", &v1, &v2, &v3);
 			
 			if (result != EOF) {
-				mesh->triangles.push_back(Triangle(v1, v2, v3));
+				mesh.triangles.push_back(Triangle(v1, v2, v3));
 			}
 			row = strtok(NULL, "\n");
 		}
-		mesh->numberOfTriangles = mesh->triangles.size();
+		mesh.numberOfTriangles = mesh.triangles.size();
 		meshes.push_back(mesh);
 
 		pMesh = pMesh->NextSiblingElement("Mesh");

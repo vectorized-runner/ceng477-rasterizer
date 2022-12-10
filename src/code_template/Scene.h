@@ -32,7 +32,7 @@ public:
     vector<Scaling*> scalings;
     vector<Rotation*> rotations;
     vector<Translation*> translations;
-    vector<Mesh*> meshes;
+    vector<Mesh> meshes;
 
     Scene(const char* xmlPath);
 
