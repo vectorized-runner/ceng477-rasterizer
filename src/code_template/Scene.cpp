@@ -27,6 +27,9 @@ using namespace std;
 void Scene::forwardRenderingPipeline(Camera *camera)
 {
 	// TODO: Implement this function.
+    cout << "Forward Rendering Begin" << endl;
+
+    cout << "Forward Rendering End" << endl;
 }
 
 /*
@@ -261,6 +264,8 @@ Scene::Scene(const char *xmlPath)
 */
 void Scene::initializeImage(Camera *camera)
 {
+    cout << "Initialize Image" << endl;
+
 	if (this->image.empty())
 	{
 		for (int i = 0; i < camera->horRes; i++)
@@ -308,6 +313,8 @@ int Scene::makeBetweenZeroAnd255(double value)
 */
 void Scene::writeImageToPPMFile(Camera *camera)
 {
+    cout << "Write PPM begin" << endl;
+
 	ofstream fout;
 
 	fout.open(camera->outputFileName.c_str());
