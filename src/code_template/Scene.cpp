@@ -1,3 +1,6 @@
+#pragma clang diagnostic push
+#pragma ide diagnostic ignored "cert-err34-c"
+#pragma ide diagnostic ignored "readability-convert-member-functions-to-static"
 #include <iostream>
 #include <iomanip>
 #include <cstdlib>
@@ -339,3 +342,4 @@ void Scene::writeImageToPPMFile(const Camera& camera)
 	fout.close();
 }
 
+#pragma clang diagnostic pop
