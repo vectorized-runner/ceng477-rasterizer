@@ -19,14 +19,6 @@ Vec3::Vec3(double x, double y, double z, int colorId)
     this->colorId = colorId;
 }
 
-Vec3::Vec3(const Vec3 &other)
-{
-    this->x = other.x;
-    this->y = other.y;
-    this->z = other.z;
-    this->colorId = other.colorId;
-}
-
 ostream& operator<<(ostream& os, const Vec3& v) {
     
     os << fixed << setprecision(6) << "[" << v.x << ", " << v.y << ", " << v.z << "]";
