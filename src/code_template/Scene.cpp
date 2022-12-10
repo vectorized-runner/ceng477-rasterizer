@@ -52,7 +52,7 @@ Scene::Scene(const char *xmlPath)
 
 	// read culling
 	pElement = pRoot->FirstChildElement("Culling");
-	if (pElement != NULL) {
+	if (pElement != nullptr) {
 		str = pElement->GetText();
 		
 		if (strcmp(str, "enabled") == 0) {
@@ -67,7 +67,7 @@ Scene::Scene(const char *xmlPath)
 	pElement = pRoot->FirstChildElement("Cameras");
 	XMLElement *pCamera = pElement->FirstChildElement("Camera");
 	XMLElement *camElement;
-	while (pCamera != NULL)
+	while (pCamera != nullptr)
 	{
 		Camera cam = Camera();
 
@@ -123,7 +123,7 @@ Scene::Scene(const char *xmlPath)
 	XMLElement *pVertex = pElement->FirstChildElement("Vertex");
 	int vertexId = 1;
 
-	while (pVertex != NULL)
+	while (pVertex != nullptr)
 	{
 		Vec3 vertex = Vec3();
 		Color color = Color();
@@ -147,7 +147,7 @@ Scene::Scene(const char *xmlPath)
 	// read translations
 	pElement = pRoot->FirstChildElement("Translations");
 	XMLElement *pTranslation = pElement->FirstChildElement("Translation");
-	while (pTranslation != NULL)
+	while (pTranslation != nullptr)
 	{
 		Translation translation = Translation();
 
@@ -164,7 +164,7 @@ Scene::Scene(const char *xmlPath)
 	// read scalings
 	pElement = pRoot->FirstChildElement("Scalings");
 	XMLElement *pScaling = pElement->FirstChildElement("Scaling");
-	while (pScaling != NULL)
+	while (pScaling != nullptr)
 	{
 		Scaling scaling = Scaling();
 
@@ -180,7 +180,7 @@ Scene::Scene(const char *xmlPath)
 	// read rotations
 	pElement = pRoot->FirstChildElement("Rotations");
 	XMLElement *pRotation = pElement->FirstChildElement("Rotation");
-	while (pRotation != NULL)
+	while (pRotation != nullptr)
 	{
 		Rotation rotation = Rotation();
 
@@ -198,7 +198,7 @@ Scene::Scene(const char *xmlPath)
 
 	XMLElement *pMesh = pElement->FirstChildElement("Mesh");
 	XMLElement *meshElement;
-	while (pMesh != NULL)
+	while (pMesh != nullptr)
 	{
 		Mesh mesh = Mesh();
 
@@ -218,7 +218,7 @@ Scene::Scene(const char *xmlPath)
 		XMLElement *pTransformations = pMesh->FirstChildElement("Transformations");
 		XMLElement *pTransformation = pTransformations->FirstChildElement("Transformation");
 
-		while (pTransformation != NULL)
+		while (pTransformation != nullptr)
 		{
 			char transformationType;
 			int transformationId;
@@ -243,14 +243,14 @@ Scene::Scene(const char *xmlPath)
 		clone_str = strdup(str);
 
 		row = strtok(clone_str, "\n");
-		while (row != NULL)
+		while (row != nullptr)
 		{
 			int result = sscanf(row, "%d %d %d", &v1, &v2, &v3);
 			
 			if (result != EOF) {
 				mesh.triangles.push_back(Triangle(v1, v2, v3));
 			}
-			row = strtok(NULL, "\n");
+			row = strtok(nullptr, "\n");
 		}
 		mesh.numberOfTriangles = mesh.triangles.size();
 		meshes.push_back(mesh);
