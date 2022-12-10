@@ -20,28 +20,31 @@
 
 using namespace std;
 
-class Scene
-{
+class Scene {
 public:
-	Color backgroundColor;
-	bool cullingEnabled;
+    Color backgroundColor;
+    bool cullingEnabled;
 
-	vector< vector<Color> > image;
-	vector<Camera> cameras;
-	vector< Vec3* > vertices;
-	vector< Color* > colorsOfVertices;
-	vector< Scaling* > scalings;
-	vector< Rotation* > rotations;
-	vector< Translation* > translations;
-	vector< Mesh* > meshes;
+    vector<vector<Color> > image;
+    vector<Camera> cameras;
+    vector<Vec3*> vertices;
+    vector<Color*> colorsOfVertices;
+    vector<Scaling*> scalings;
+    vector<Rotation*> rotations;
+    vector<Translation*> translations;
+    vector<Mesh*> meshes;
 
-	Scene(const char *xmlPath);
+    Scene(const char* xmlPath);
 
-	void initializeImage(const Camera& camera);
-	void forwardRenderingPipeline(const Camera& camera);
-	int makeBetweenZeroAnd255(double value);
-	void writeImageToPPMFile(const Camera& camera);
-	void convertPPMToPNG(string ppmFileName, int osType);
+    void initializeImage(const Camera& camera);
+
+    void forwardRenderingPipeline(const Camera& camera);
+
+    int makeBetweenZeroAnd255(double value);
+
+    void writeImageToPPMFile(const Camera& camera);
+
+    void convertPPMToPNG(string ppmFileName, int osType);
 };
 
 #endif
