@@ -18,10 +18,13 @@ namespace Rasterizer {
 
     struct Render {
 
-        static void DrawTriangle(vector<vector<Color>>& output, triangle tri, cam cam, int resX, int resY){
-            auto viewportP0 = Render::WorldToViewportPerspective(tri.p0, cam.position, cam.u, cam.v, cam.w, cam.r, cam.l, cam.t, cam.b, cam.f, cam.n);
-            auto viewportP1 = Render::WorldToViewportPerspective(tri.p1, cam.position, cam.u, cam.v, cam.w, cam.r, cam.l, cam.t, cam.b, cam.f, cam.n);
-            auto viewportP2 = Render::WorldToViewportPerspective(tri.p2, cam.position, cam.u, cam.v, cam.w, cam.r, cam.l, cam.t, cam.b, cam.f, cam.n);
+        static void DrawTriangle(vector<vector<Color>>& output, triangle tri, cam cam, int resX, int resY) {
+            auto viewportP0 = Render::WorldToViewportPerspective(tri.p0, cam.position, cam.u, cam.v, cam.w, cam.r,
+                                                                 cam.l, cam.t, cam.b, cam.f, cam.n);
+            auto viewportP1 = Render::WorldToViewportPerspective(tri.p1, cam.position, cam.u, cam.v, cam.w, cam.r,
+                                                                 cam.l, cam.t, cam.b, cam.f, cam.n);
+            auto viewportP2 = Render::WorldToViewportPerspective(tri.p2, cam.position, cam.u, cam.v, cam.w, cam.r,
+                                                                 cam.l, cam.t, cam.b, cam.f, cam.n);
 
             auto screenP0 = Render::ViewportToScreenPoint(viewportP0, resX, resY);
             auto screenP1 = Render::ViewportToScreenPoint(viewportP1, resX, resY);
@@ -41,24 +44,24 @@ namespace Rasterizer {
             return -v / Math::Length(v);
         }
 
-        static double4x4 GetOrthographic(double r, double l, double t, double b, double f, double n){
+        static double4x4 GetOrthographic(double r, double l, double t, double b, double f, double n) {
             return double4x4(
                     double4(2 / (r - l), 0, 0, 0),
                     double4(0, 2 / (t - b), 0, 0),
                     double4(0, 0, -2 / (f - n), 0),
-                    double4(-(r + l) / (r - l), -(t + b) / (t - b), - (f + n) / (f - n), 1)
-                    );
+                    double4(-(r + l) / (r - l), -(t + b) / (t - b), -(f + n) / (f - n), 1)
+            );
         }
 
-        static double4x4 GetPerspective(double r, double l, double t, double b, double f, double n){
+        static double4x4 GetPerspective(double r, double l, double t, double b, double f, double n) {
             return double4x4(
                     double4(2 * n / (r - l), 0, 0, 0),
                     double4(0, 2 * n / (t - b), 0, 0),
-                    double4((r + l) / (r - l), (t + b) / (t - b), - (f + n) / (f - n), -1),
+                    double4((r + l) / (r - l), (t + b) / (t - b), -(f + n) / (f - n), -1),
                     double4(0, 0, -2 * f * n / (f - n), 0));
         }
 
-        static double4x4 GetWorldToCameraMatrix(double3 pos, double3 u, double3 v, double3 w){
+        static double4x4 GetWorldToCameraMatrix(double3 pos, double3 u, double3 v, double3 w) {
             auto translation = Math::TranslationMatrix(-pos);
             auto rotation = double4x4(
                     double4(u.x, v.x, w.x, 0),
@@ -69,17 +72,17 @@ namespace Rasterizer {
             return Math::Mul(rotation, translation);
         }
 
-        static double4x4 GetVP(int resX, int resY){
+        static double4x4 GetVP(int resX, int resY) {
             return double4x4(
                     double4(resX / 2.0, 0.0, 0.0, 0.0),
                     double4(0.0, resY / 2.0, 0.0, 0.0),
                     double4(0.0, 0.0, 0.5, 0.0),
                     double4((resX - 1) / 2.0, (resY - 1) / 2.0, 0.5, 0.0)
-                    );
+            );
         }
 
         static double2 WorldToViewportOrtho(double3 worldPosition, double3 cameraPos, double3 u, double3 v, double3 w,
-                                                  double r, double l, double t, double b, double f, double n){
+                                            double r, double l, double t, double b, double f, double n) {
             auto ortho = GetOrthographic(r, l, t, b, f, n);
             auto cam = GetWorldToCameraMatrix(cameraPos, u, v, w);
             auto vec = Math::Mul(ortho, Math::Mul(cam, double4(worldPosition, 1.0)));
@@ -88,8 +91,9 @@ namespace Rasterizer {
         }
 
         // No way this works
-        static double2 WorldToViewportPerspective(double3 worldPosition, double3 cameraPos, double3 u, double3 v, double3 w,
-                                               double r, double l, double t, double b, double f, double n){
+        static double2
+        WorldToViewportPerspective(double3 worldPosition, double3 cameraPos, double3 u, double3 v, double3 w,
+                                   double r, double l, double t, double b, double f, double n) {
 
             auto per = GetPerspective(r, l, t, b, f, n);
             auto cam = GetWorldToCameraMatrix(cameraPos, u, v, w);
@@ -102,7 +106,7 @@ namespace Rasterizer {
 
         // TODO: Consider doing with Matrix
         // TODO: Is clamping by casting the right way?
-        static int2 ViewportToScreenPoint(double2 viewport, int resX, int resY){
+        static int2 ViewportToScreenPoint(double2 viewport, int resX, int resY) {
             Debug::Assert(abs(viewport.x) <= 1.0, "Viewport X error.");
             Debug::Assert(abs(viewport.y) <= 1.0, "Viewport Y error.");
 
@@ -130,28 +134,25 @@ namespace Rasterizer {
                 auto type = transformationTypes[i];
                 auto id = transformationIds[i];
 
-                switch(type){
-                    case 'r':
-                    {
+                switch (type) {
+                    case 'r': {
                         auto item = rotations[id - 1];
                         // TODO: I don't trust this works
                         rotationMatrix = double4x4::identity();
                         // rotationMatrix = Math::RotateDegreesAroundAxis(double3(item.ux, item.uy, item.uz), item.angle);
                         break;
                     }
-                    case 't':{
+                    case 't': {
                         auto item = translations[id - 1];
                         translationMatrix = Math::TranslationMatrix(double3(item.tx, item.ty, item.tz));
                         break;
                     }
-                    case 's':
-                    {
+                    case 's': {
                         auto item = scalings[id - 1];
                         scaleMatrix = Math::ScaleMatrix(double3(item.sx, item.sy, item.sz));
                         break;
                     }
-                    default:
-                    {
+                    default: {
                         Debug::Log("Error: Unexpected Type Received.");
                         break;
                     }
@@ -216,7 +217,7 @@ namespace Rasterizer {
             }
         }
 
-        static void DrawColor(vector <vector<Color>>& output, int2 screenPos, double3 color) {
+        static void DrawColor(vector<vector<Color>>& output, int2 screenPos, double3 color) {
             output[screenPos.x][screenPos.y] = Color(color.x, color.y, color.z);
         }
     };
