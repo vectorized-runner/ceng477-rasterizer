@@ -135,7 +135,10 @@ namespace Rasterizer {
 
         // Remember: Our matrices are column-based!
         static double4x4 RotationY(double radY){
-
+            return double4x4(double4(cos(radY), 0.0, -sin(radY), 0.0),
+                             double4(0.0, 1.0, 0.0, 0.0),
+                             double4(sin(radY), 0.0, cos(radY), 0.0 ),
+                             double4(0.0, 0.0, 0.0, 1.0));
         }
 
         // Remember: Our matrices are column-based!
