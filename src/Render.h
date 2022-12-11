@@ -95,10 +95,7 @@ namespace Rasterizer {
             auto cam = GetWorldToCameraMatrix(cameraPos, u, v, w);
             auto vec = Math::Mul(per, Math::Mul(cam, double4(worldPosition, 1.0)));
             // Perspective divide
-            // Note: I've added this (-) component, only works this way?
-            vec = vec / -vec.w;
-
-            cout << "WorldPos: " << worldPosition.ToString() << "Vec: " << vec.ToString() << endl;
+            vec = vec / vec.w;
 
             return double2(vec.x, vec.y);
         }
