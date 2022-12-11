@@ -35,31 +35,42 @@ void Scene::forwardRenderingPipeline(Camera& camera)
 {
     cout << "left " << camera.left << endl;
 
+
     auto resX = camera.horRes;
     auto resY = camera.verRes;
 
-    auto mytri1 = triangle();
-    mytri1.p0 = double3(-0.5, 0.0, 0.0);
-    mytri1.c0 = double3(255, 0, 0);
-    mytri1.p1 = double3(0.5, 0.0, 0.0);
-    mytri1.c1 = double3(0, 255, 0);
-    mytri1.p2 = double3(0.0, 1.0, 0.0);
-    mytri1.c2 = double3(0, 0, 255);
-
-    auto mycam = cam();
-    mycam.u = double3(1, 0, 0);
-    mycam.v = double3(0, 1, 0);
-    mycam.w = double3(0, 0, 1);
-    mycam.position = double3(0, 0, -1);
-    mycam.n = 1;
-    mycam.f = 10;
-    mycam.t = 2;
-    mycam.b = -2;
-    mycam.l = -2;
-    mycam.r = 2;
-
-    Render::DrawTriangle(image, mytri1, mycam, resX, resY);
-    return;
+    // This is test drawing method
+//    auto mytri1 = triangle();
+//    mytri1.p0 = double3(-0.5, 0.0, 0.0);
+//    mytri1.c0 = double3(255, 0, 0);
+//    mytri1.p1 = double3(0.5, 0.0, 0.0);
+//    mytri1.c1 = double3(0, 255, 0);
+//    mytri1.p2 = double3(0.0, 1.0, 0.0);
+//    mytri1.c2 = double3(0, 0, 255);
+//
+//    auto mytri2 = triangle();
+//    mytri2.p0 = double3(-0.5, 0.0, 0.0);
+//    mytri2.c0 = double3(255, 0, 0);
+//    mytri2.p1 = double3(0.5, 0.0, 0.0);
+//    mytri2.c1 = double3(0, 255, 0);
+//    mytri2.p2 = double3(0.0, -1.0, 0.0);
+//    mytri2.c2 = double3(255, 255, 0);
+//
+//    auto mycam = cam();
+//    mycam.u = double3(1, 0, 0);
+//    mycam.v = double3(0, 1, 0);
+//    mycam.w = double3(0, 0, 1);
+//    mycam.position = double3(0, 0, -1);
+//    mycam.n = 1;
+//    mycam.f = 10;
+//    mycam.t = 2;
+//    mycam.b = -2;
+//    mycam.l = -2;
+//    mycam.r = 2;
+//
+//    Render::DrawTriangle(image, mytri1, mycam, resX, resY);
+//    Render::DrawTriangle(image, mytri2, mycam, resX, resY);
+//    return;
 
     auto meshCount = meshes.size();
     auto cameraForward = camera.w.GetPos();
