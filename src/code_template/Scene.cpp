@@ -38,6 +38,18 @@ void Scene::forwardRenderingPipeline(const Camera& camera)
 
     auto meshCount = meshes.size();
     auto cameraForward = camera.w.GetPos();
+    auto cameraPos = camera.pos.GetPos();
+    auto u = camera.u.GetPos();
+    auto v = camera.v.GetPos();
+    auto w = camera.w.GetPos();
+    auto n = camera.near;
+    auto f = camera.far;
+    auto l = camera.left;
+    auto r = camera.right;
+    auto b = camera.bottom;
+    auto t = camera.top;
+    auto resX = camera.horRes;
+    auto resY = camera.verRes;
     Debug::Assert(Math::IsNormalized(cameraForward), "CameraForward isn't normalized!");
 
     for (int i = 0; i < meshCount; ++i) {
@@ -72,8 +84,15 @@ void Scene::forwardRenderingPipeline(const Camera& camera)
 
                 // Culling
                 if(cullingEnabled && Render::ShouldTriangleBeCulled(normal, cameraForward)){
+                    Debug::Log("Culling this Triangle.");
                     continue;
                 }
+
+                auto viewportP0 = Render::WorldToViewportPoint(worldP0, cameraPos, u, v, w, r, l, t, b, f, n, resX, resY);
+                auto screenP0 = Render::ViewportToScreenPoint(viewportP0, resX, resY);
+
+                cout << "Viewport P0 is: " << viewportP0.ToString() << endl;
+                cout << "Screen P0 is: " << screenP0.ToString() << endl;
 
                 // TODO: Transform vertices to camera space
                 // TODO: Apply clipping
