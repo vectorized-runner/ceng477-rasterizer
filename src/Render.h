@@ -101,7 +101,8 @@ namespace Rasterizer {
             // Perspective divide
             vec = vec / vec.w;
 
-            return double2(vec.x, vec.y);
+            // I've added extra negative sign, doesn't work without it
+            return double2(-vec.x, -vec.y);
         }
 
         // TODO: Consider doing with Matrix
