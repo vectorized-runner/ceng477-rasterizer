@@ -4,6 +4,7 @@
 
 #include "double4x4.h"
 #include "double3.h"
+#include "Debug.h"
 #include <cmath>
 #include <limits>
 
@@ -168,6 +169,34 @@ namespace Rasterizer {
         static double3 LocalToWorld(double3 position, double3 translation, double3 rotation, double3 scale){
             auto res = Math::Mul(TRS(translation, rotation, scale), double4(position.x, position.y, position.z, 1.0));
             return double3(res.x, res.y, res.z);
+        }
+
+        static bool IsZero(double v){
+            return abs(v) < Epsilon;
+        }
+
+        static double4x4 RotateDegreesAroundAxis(double3 axis, double angle){
+            auto rads = Math::Radians(angle);
+            // Create uvw
+            auto u = Normalize(axis);
+            auto v = double3(-u.y, u.x, 0);
+            auto w = Math::Cross(u, v);
+            Debug::Assert(IsZero(Dot(u, v)), "uvw failed.");
+            Debug::Assert(IsZero(Dot(u, w)), "uvw failed.");
+
+            auto mInverse = double4x4(
+                    double4(u.x, u.y, u.z, 0.0),
+                    double4(v.x, v.x, v.z, 0.0),
+                    double4(w.x, w.y, w.z, 0.0),
+                    double4(0.0, 0.0, 0.0, 1.0));
+
+            auto m = double4x4(
+                    double4(u.x, v.x, w.x, 0.0),
+                    double4(u.y, v.y, w.y, 0.0),
+                    double4(u.z, v.z, w.z, 0.0),
+                    double4(0.0, 0.0, 0.0, 1.0));
+
+            return Mul(mInverse, Mul(RotationX(rads), m));
         }
     };
 
