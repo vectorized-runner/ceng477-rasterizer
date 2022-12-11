@@ -105,7 +105,7 @@ namespace Rasterizer {
             return Max(a, Min(b, x));
         }
 
-        static double4x4 mul(double4x4 a, double4x4 b)
+        static double4x4 Mul(double4x4 a, double4x4 b)
         {
             return double4x4(
                     a.c0 * b.c0.x + a.c1 * b.c0.y + a.c2 * b.c0.z + a.c3 * b.c0.w,
@@ -114,6 +114,43 @@ namespace Rasterizer {
                     a.c0 * b.c3.x + a.c1 * b.c3.y + a.c2 * b.c3.z + a.c3 * b.c3.w);
         }
 
+        static double4x4 TranslationMatrix(double3 translate){
+            return double4x4(double4(1.0, 0.0, 0.0, 0.0),
+                             double4(0.0, 1.0, 0.0, 0.0),
+                             double4(0.0, 0.0, 1.0, 0.0),
+                             double4(translate.x, translate.y, translate.z, 1.0));
+        }
+
+        static double4x4 RotationMatrix(double3 radians){
+            return Mul(RotationX(radians.x), Mul(RotationY(radians.y), RotationZ(radians.z)));
+        }
+
+        // Remember: Our matrices are column-based!
+        static double4x4 RotationX(double radX){
+            return double4x4(double4(1.0, 0.0, 0.0, 0.0),
+                             double4(0.0, cos(radX), sin(radX), 0.0),
+                             double4(0.0, -sin(radX), cos(radX), 0.0 ),
+                             double4(0.0, 0.0, 0.0, 1.0));
+        }
+
+        // Remember: Our matrices are column-based!
+        static double4x4 RotationY(double radY){
+
+        }
+
+        // Remember: Our matrices are column-based!
+        static double4x4 RotationZ(double radZ){
+
+        }
+
+        static double4x4 ScaleMatrix(double3 scale){
+
+        }
+
+        static double4x4 TRS(double3 position, double3 rotationRads, double3 scale){
+            return Math::Mul(TranslationMatrix(position),
+                             Math::Mul(RotationMatrix(rotationRads), ScaleMatrix(scale)));
+        }
     };
 
 } // RayTracer
