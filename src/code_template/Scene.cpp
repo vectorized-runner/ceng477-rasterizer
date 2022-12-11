@@ -43,6 +43,10 @@ void Scene::forwardRenderingPipeline(const Camera& camera)
     for (int i = 0; i < meshCount; ++i) {
         const auto& mesh = meshes[i];
 
+        Debug::Assert(mesh.transformationTypes.size() == mesh.transformationIds.size(), "Transformation size doesn't match id size.");
+        Debug::Assert(mesh.transformationTypes.size() > 0, "No Transformation found.");
+        Debug::Assert(mesh.transformationTypes.size() <= 3, "There are more than 3 transformations, what to do?");
+
         if(mesh.type == 0){
             // Wireframe
 
