@@ -19,6 +19,10 @@ namespace Rasterizer {
             this->x = x;
             this->y = y;
         }
+
+        string ToString() const {
+            return "(" + to_string(x) + ", " + to_string(y) + ")";
+        }
     };
 
 } // Rasterizer
