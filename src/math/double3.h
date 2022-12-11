@@ -23,14 +23,14 @@ namespace Rasterizer {
         }
 
         __attribute__((always_inline))
-        double3(float a) {
+        explicit double3(double a) {
             this->x = a;
             this->y = a;
             this->z = a;
         }
 
         __attribute__((always_inline))
-        double3(float x, float y, float z) {
+        double3(double x, double y, double z) {
             this->x = x;
             this->y = y;
             this->z = z;
