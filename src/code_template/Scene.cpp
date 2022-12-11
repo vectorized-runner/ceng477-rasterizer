@@ -104,12 +104,16 @@ void Scene::forwardRenderingPipeline(const Camera& camera)
                 // TODO: Apply clipping
 
                 // TODO: Remove this, not correct way to do it!
-                screenP0.x = Math::Clamp(screenP0.x, 0, resX);
-                screenP0.y = Math::Clamp(screenP0.y, 0, resY);
-                screenP1.x = Math::Clamp(screenP1.x, 0, resX);
-                screenP1.y = Math::Clamp(screenP1.y, 0, resY);
-                screenP2.x = Math::Clamp(screenP2.x, 0, resX);
-                screenP2.y = Math::Clamp(screenP2.y, 0, resY);
+                screenP0.x = Math::Clamp(screenP0.x, 0, resX - 1);
+                screenP0.y = Math::Clamp(screenP0.y, 0, resY - 1);
+                screenP1.x = Math::Clamp(screenP1.x, 0, resX - 1);
+                screenP1.y = Math::Clamp(screenP1.y, 0, resY - 1);
+                screenP2.x = Math::Clamp(screenP2.x, 0, resX - 1);
+                screenP2.y = Math::Clamp(screenP2.y, 0, resY - 1);
+
+                cout << "p0: " << screenP0.ToString() << endl;
+                cout << "p1: " << screenP1.ToString() << endl;
+                cout << "p2: " << screenP2.ToString() << endl;
 
                 Render::DrawLine(image, screenP0, screenP1, color0, color1);
                 Render::DrawLine(image, screenP1, screenP2, color1, color2);
