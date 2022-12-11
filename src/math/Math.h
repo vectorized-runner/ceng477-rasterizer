@@ -4,7 +4,7 @@
 
 #include "double4x4.h"
 #include "double3.h"
-#include "Debug.h"
+#include "../Debug.h"
 #include <cmath>
 #include <limits>
 
@@ -197,6 +197,10 @@ namespace Rasterizer {
                     double4(0.0, 0.0, 0.0, 1.0));
 
             return Mul(mInverse, Mul(RotationX(rads), m));
+        }
+
+        static double Remap(double x, double oldMin, double oldMax, double newMin, double newMax){
+            return newMin + (x - oldMin) / (oldMax - oldMin) * (newMax - newMin);
         }
     };
 
