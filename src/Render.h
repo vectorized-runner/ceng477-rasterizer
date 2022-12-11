@@ -58,6 +58,15 @@ namespace Rasterizer {
                     );
         }
 
+        static double2 WorldToViewportOrtho(double3 worldPosition, double3 cameraPos, double3 u, double3 v, double3 w,
+                                                  double r, double l, double t, double b, double f, double n){
+            auto ortho = GetOrthographic(r, l, t, b, f, n);
+            auto cam = GetWorldToCameraMatrix(cameraPos, u, v, w);
+            auto vec = Math::Mul(ortho, Math::Mul(cam, double4(worldPosition, 1.0)));
+
+            return double2(vec.x, vec.y);
+        }
+
         // No way this works
         static double2 WorldToViewportPerspective(double3 worldPosition, double3 cameraPos, double3 u, double3 v, double3 w,
                                                double r, double l, double t, double b, double f, double n){
