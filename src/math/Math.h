@@ -91,8 +91,9 @@ namespace Rasterizer {
         }
 
         __attribute__((always_inline))
-        static float Acos(float x) {
-            return acos(x);
+        static double Radians(double x)
+        {
+            return x * 0.0174532925;
         }
 
         __attribute__((always_inline))
