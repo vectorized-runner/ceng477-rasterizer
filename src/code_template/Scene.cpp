@@ -85,7 +85,6 @@ void Scene::forwardRenderingPipeline(Camera& camera)
     auto b = camera.bottom;
     auto t = camera.top;
 
-
     Debug::Assert(Math::IsNormalized(cameraForward), "CameraForward isn't normalized!");
 
     for (int i = 0; i < meshCount; ++i) {
@@ -127,10 +126,6 @@ void Scene::forwardRenderingPipeline(Camera& camera)
                 auto color0 = colorsOfVertices[v0.colorId - 1].ToDouble3();
                 auto color1 = colorsOfVertices[v1.colorId - 1].ToDouble3();
                 auto color2 = colorsOfVertices[v2.colorId - 1].ToDouble3();
-
-                cout << "p0: " << worldP0.ToString() << endl;
-                cout << "p1: " << worldP1.ToString() << endl;
-                cout << "p2: " << worldP2.ToString() << endl;
 
                 auto viewportP0 = Render::WorldToViewportPerspective(worldP0, cameraPos, u, v, w, r, l, t, b, f, n);
                 auto viewportP1 = Render::WorldToViewportPerspective(worldP1, cameraPos, u, v, w, r, l, t, b, f, n);
