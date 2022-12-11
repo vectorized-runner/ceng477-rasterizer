@@ -31,7 +31,7 @@ using namespace Rasterizer;
 	Transformations, clipping, culling, rasterization are done here.
 	You may define helper functions.
 */
-void Scene::forwardRenderingPipeline(const Camera& camera)
+void Scene::forwardRenderingPipeline(Camera& camera)
 {
     cout << "left " << camera.left << endl;
 

@@ -38,7 +38,7 @@ public:
 
     void initializeImage(const Camera& camera);
 
-    void forwardRenderingPipeline(const Camera& camera);
+    void forwardRenderingPipeline(Camera& camera);
 
     int makeBetweenZeroAnd255(double value);
 
