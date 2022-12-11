@@ -52,9 +52,9 @@ void Scene::forwardRenderingPipeline(const Camera& camera)
                 auto v0 = vertices[tri.vertexIds[0] - 1];
                 auto v1 = vertices[tri.vertexIds[1] - 1];
                 auto v2 = vertices[tri.vertexIds[2] - 1];
-                auto p0 = v0.GetPos();
-                auto p1 = v1.GetPos();
-                auto p2 = v2.GetPos();
+                auto localP0 = v0.GetPos();
+                auto localP1 = v1.GetPos();
+                auto localP2 = v2.GetPos();
 
                 // Culling
                 if(cullingEnabled && Render::ShouldTriangleBeCulled(p0, p1, p2)){
