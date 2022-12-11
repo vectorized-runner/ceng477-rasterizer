@@ -37,8 +37,8 @@ void Scene::forwardRenderingPipeline(const Camera& camera)
     Render::DrawLine(image, int2(0, 0), int2(500, 500), double3(0, 0, 255), double3(255, 0, 0));
 
     auto meshCount = meshes.size();
-    auto camForward = camera.w;
-    Debug::Assert(Math::IsNormalized(camForward.GetPos()), "CameraForward isn't normalized!");
+    auto cameraForward = camera.w.GetPos();
+    Debug::Assert(Math::IsNormalized(cameraForward), "CameraForward isn't normalized!");
 
     for (int i = 0; i < meshCount; ++i) {
         const auto& mesh = meshes[i];
@@ -46,6 +46,13 @@ void Scene::forwardRenderingPipeline(const Camera& camera)
         Debug::Assert(mesh.transformationTypes.size() == mesh.transformationIds.size(), "Transformation size doesn't match id size.");
         Debug::Assert(mesh.transformationTypes.size() > 0, "No Transformation found.");
         Debug::Assert(mesh.transformationTypes.size() <= 3, "There are more than 3 transformations, what to do?");
+
+        auto localToWorld = Render::GetLocalToWorldMatrix(
+                mesh.transformationIds,
+                mesh.transformationTypes,
+                scalings,
+                rotations,
+                translations);
 
         if(mesh.type == 0){
             // Wireframe
@@ -55,15 +62,16 @@ void Scene::forwardRenderingPipeline(const Camera& camera)
                 auto v0 = vertices[tri.vertexIds[0] - 1];
                 auto v1 = vertices[tri.vertexIds[1] - 1];
                 auto v2 = vertices[tri.vertexIds[2] - 1];
-                auto localP0 = v0.GetPos();
-                auto localP1 = v1.GetPos();
-                auto localP2 = v2.GetPos();
-
-                // TODO: Apply transformations first, to get the world position
-
+                auto localP0 = double4(v0.GetPos(), 1);
+                auto localP1 = double4(v1.GetPos(), 1);
+                auto localP2 = double4(v2.GetPos(), 1);
+                auto worldP0 = Math::Mul(localToWorld, localP0).xyz();
+                auto worldP1 = Math::Mul(localToWorld, localP1).xyz();
+                auto worldP2 = Math::Mul(localToWorld, localP2).xyz();
+                auto normal = Render::GetTriangleNormal(worldP0, worldP1, worldP2);
 
                 // Culling
-                if(cullingEnabled && Render::ShouldTriangleBeCulled(localP0, localP1, localP2)){
+                if(cullingEnabled && Render::ShouldTriangleBeCulled(normal, cameraForward)){
                     continue;
                 }
 
