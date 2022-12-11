@@ -49,7 +49,6 @@ void Scene::forwardRenderingPipeline(const Camera& camera)
 
         if(mesh.type == 0){
             // Wireframe
-
             auto triangleCount = mesh.triangles.size();
             for (int j = 0; j < triangleCount; ++j) {
                 const auto& tri = mesh.triangles[j];
@@ -60,8 +59,11 @@ void Scene::forwardRenderingPipeline(const Camera& camera)
                 auto localP1 = v1.GetPos();
                 auto localP2 = v2.GetPos();
 
+                // TODO: Apply transformations first, to get the world position
+
+
                 // Culling
-                if(cullingEnabled && Render::ShouldTriangleBeCulled(p0, p1, p2)){
+                if(cullingEnabled && Render::ShouldTriangleBeCulled(localP0, localP1, localP2)){
                     continue;
                 }
 
@@ -82,7 +84,6 @@ void Scene::forwardRenderingPipeline(const Camera& camera)
         else{
             cout << "Error, Unexpected Mesh Type: " << mesh.type << endl;
         }
-
     }
 
 //    for(int x = 0; x < 300; x++){

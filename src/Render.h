@@ -27,10 +27,9 @@ namespace Rasterizer {
                 const vector<Rotation>& rotations,
                 const vector<Translation>& translations) {
 
-            auto result = double4x4::identity();
             auto transformationCount = transformationIds.size();
 
-            double3 position = double3(0, 0, 0);
+            double3 translation = double3(0, 0, 0);
             double3 rotation = double3(0, 0, 0);
             double3 scale = double3(1, 1, 1);
 
@@ -41,19 +40,19 @@ namespace Rasterizer {
                 switch(type){
                     case 'r':
                     {
-                        auto rotation = rotations[id - 1];
                         // TODO:
+                        auto item = rotations[id - 1];
                         break;
                     }
                     case 't':{
-                        auto translation = translations[id - 1];
-                        // TODO:
+                        auto item = translations[id - 1];
+                        translation = translation + double3(item.tx, item.ty, item.tz);
                         break;
                     }
                     case 's':
                     {
-                        auto scale = scalings[id - 1];
-                        // TODO:
+                        auto item = scalings[id - 1];
+                        scale = scale * double3(item.sx, item.sy, item.sz);
                         break;
                     }
                     default:
@@ -63,6 +62,13 @@ namespace Rasterizer {
                     }
                 }
             }
+
+            auto rotationRads = double3(
+                    Math::Radians(rotation.x),
+                    Math::Radians(rotation.y),
+                    Math::Radians(rotation.z));
+
+            return Math::TRS(translation, rotationRads, scale);
         }
 
 //        static double4x4 GetRotationMatrix(){
