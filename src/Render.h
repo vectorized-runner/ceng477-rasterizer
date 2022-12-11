@@ -7,6 +7,7 @@
 #include "math/double3.h"
 #include "math/double4x4.h"
 #include "math/Math.h"
+#include "Debug.h"
 
 using namespace std;
 
@@ -19,8 +20,49 @@ namespace Rasterizer {
             return -v / Math::Length(v);
         }
 
-        static double4x4 GetLocalToWorldMatrix() {
+        static double4x4 GetLocalToWorldMatrix(
+                const vector<int>& transformationIds,
+                const vector<char>& transformationTypes,
+                const vector<Scaling>& scalings,
+                const vector<Rotation>& rotations,
+                const vector<Translation>& translations) {
 
+            auto result = double4x4::identity();
+            auto transformationCount = transformationIds.size();
+
+            double3 position = double3(0, 0, 0);
+            double3 rotation = double3(0, 0, 0);
+            double3 scale = double3(1, 1, 1);
+
+            for (int i = 0; i < transformationCount; ++i) {
+                auto type = transformationTypes[i];
+                auto id = transformationIds[i];
+
+                switch(type){
+                    case 'r':
+                    {
+                        auto rotation = rotations[id - 1];
+                        // TODO:
+                        break;
+                    }
+                    case 't':{
+                        auto translation = translations[id - 1];
+                        // TODO:
+                        break;
+                    }
+                    case 's':
+                    {
+                        auto scale = scalings[id - 1];
+                        // TODO:
+                        break;
+                    }
+                    default:
+                    {
+                        Debug::Log("Error: Unexpected Type Received.");
+                        break;
+                    }
+                }
+            }
         }
 
 //        static double4x4 GetRotationMatrix(){
