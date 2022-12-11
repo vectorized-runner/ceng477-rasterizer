@@ -11,9 +11,7 @@ namespace Rasterizer {
 
     struct Math {
 
-        constexpr static const float FloatMax = numeric_limits<float>::max();
-        constexpr static const float FloatMin = numeric_limits<float>::min();
-        constexpr static const float Epsilon = 0.0001f;
+        constexpr static const double Epsilon = 0.0001;
 
         __attribute__((always_inline))
         static double3 Cross(double3 x, double3 y) {
@@ -21,12 +19,12 @@ namespace Rasterizer {
         }
 
         __attribute__((always_inline))
-        static float Dot(double3 x, double3 y) {
+        static double Dot(double3 x, double3 y) {
             return x.x * y.x + x.y * y.y + x.z * y.z;
         }
 
         __attribute__((always_inline))
-        static float Min(float x, float y) {
+        static double Min(double x, double y) {
             return x < y ? x : y;
         }
 
@@ -36,7 +34,7 @@ namespace Rasterizer {
         }
 
         __attribute__((always_inline))
-        static float Max(float x, float y) {
+        static double Max(double x, double y) {
             return x > y ? x : y;
         }
 
@@ -51,22 +49,22 @@ namespace Rasterizer {
         }
 
         __attribute__((always_inline))
-        static float Length(double3 x) {
+        static double Length(double3 x) {
             return sqrt(Dot(x, x));
         }
 
         __attribute__((always_inline))
-        static float LengthSq(double3 v) {
+        static double LengthSq(double3 v) {
             return Dot(v, v);
         }
 
         __attribute__((always_inline))
-        static float DistanceSq(double3 x, double3 y) {
+        static double DistanceSq(double3 x, double3 y) {
             return LengthSq(y - x);
         }
 
         __attribute__((always_inline))
-        static bool IsLengthEqual(double3 v, float length) {
+        static bool IsLengthEqual(double3 v, double length) {
             return abs(LengthSq(v) - length * length) < Epsilon;
         }
 
@@ -81,13 +79,13 @@ namespace Rasterizer {
         }
 
         __attribute__((always_inline))
-        static float Rsqrt(float x) {
-            return 1.0f / sqrt(x);
+        static double Rsqrt(double x) {
+            return 1.0 / sqrt(x);
         }
 
         __attribute__((always_inline))
-        static float Degrees(float x) {
-            return x * 57.295779513f;
+        static double Degrees(double x) {
+            return x * 57.295779513;
         }
 
         __attribute__((always_inline))
@@ -102,7 +100,7 @@ namespace Rasterizer {
         }
 
         __attribute__((always_inline))
-        static float Clamp(float x, float a, float b) {
+        static double Clamp(double x, double a, double b) {
             return Max(a, Min(b, x));
         }
 
