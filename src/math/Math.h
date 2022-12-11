@@ -150,7 +150,10 @@ namespace Rasterizer {
         }
 
         static double4x4 ScaleMatrix(double3 scale){
-
+            return double4x4(double4(scale.x, 0.0, 0.0, 0.0),
+                             double4(0.0, scale.y, 0.0, 0.0),
+                             double4(0.0, 0.0, scale.z, 0.0),
+                             double4(0.0, 0.0, 0.0, 1.0));
         }
 
         static double4x4 TRS(double3 position, double3 rotationRads, double3 scale){
