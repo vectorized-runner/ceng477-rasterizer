@@ -5,6 +5,7 @@
 #include "code_template/Color.h"
 #include "math/int2.h"
 #include "math/double3.h"
+#include "math/Math.h"
 
 using namespace std;
 
@@ -12,6 +13,10 @@ namespace Rasterizer {
 
     struct Render {
 
+        static double3 GetTriangleNormal(double3 p0, double3 p1, double3 p2) {
+            auto v = Math::Cross(p2 - p0, p1 - p0);
+            return -v / Math::Length(v);
+        }
         static bool ShouldTriangleBeCulled(double3 v0, double3 v1, double3 v2){
             return false;
         }
