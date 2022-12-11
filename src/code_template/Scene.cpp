@@ -19,6 +19,7 @@
 #include <iomanip>
 #include <cmath>
 
+#include "../Debug.h"
 #include "../Render.h"
 #include "../math/Math.h"
 
@@ -36,6 +37,9 @@ void Scene::forwardRenderingPipeline(const Camera& camera)
     Render::DrawLine(image, int2(0, 0), int2(500, 500), double3(0, 0, 255), double3(255, 0, 0));
 
     auto meshCount = meshes.size();
+    auto camForward = camera.w;
+    Debug::Assert(Math::IsNormalized(camForward.GetPos()), "CameraForward isn't normalized!");
+
     for (int i = 0; i < meshCount; ++i) {
         const auto& mesh = meshes[i];
 
