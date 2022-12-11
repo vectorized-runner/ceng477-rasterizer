@@ -4,6 +4,7 @@
 #include "code_template/Scene.h"
 #include "code_template/Matrix4.h"
 #include "code_template/Helpers.h"
+#include "math/double4x4.h"
 
 using namespace std;
 
@@ -11,6 +12,12 @@ Scene *scene;
 
 int main(int argc, char *argv[])
 {
+    // TODO:
+
+    double4x4::identity().print();
+
+    return 0;
+
     cout << "Start Running Rasterizer" << endl;
 
     if (argc != 2)
