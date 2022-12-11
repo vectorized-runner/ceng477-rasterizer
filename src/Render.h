@@ -9,12 +9,32 @@
 #include "math/double4x4.h"
 #include "math/Math.h"
 #include "Debug.h"
+#include "triangle.h"
+#include "cam.h"
 
 using namespace std;
 
 namespace Rasterizer {
 
     struct Render {
+
+        static void DrawTriangle(vector<vector<Color>>& output, triangle tri, cam cam, int resX, int resY){
+            auto viewportP0 = Render::WorldToViewportPerspective(tri.p0, cam.position, cam.u, cam.v, cam.w, cam.r, cam.l, cam.t, cam.b, cam.f, cam.n);
+            auto viewportP1 = Render::WorldToViewportPerspective(tri.p1, cam.position, cam.u, cam.v, cam.w, cam.r, cam.l, cam.t, cam.b, cam.f, cam.n);
+            auto viewportP2 = Render::WorldToViewportPerspective(tri.p2, cam.position, cam.u, cam.v, cam.w, cam.r, cam.l, cam.t, cam.b, cam.f, cam.n);
+
+            auto screenP0 = Render::ViewportToScreenPoint(viewportP0, resX, resY);
+            auto screenP1 = Render::ViewportToScreenPoint(viewportP1, resX, resY);
+            auto screenP2 = Render::ViewportToScreenPoint(viewportP2, resX, resY);
+
+            cout << screenP0.ToString() << endl;
+            //cout << screenP1.ToString() << endl;
+            cout << screenP2.ToString() << endl;
+
+            //Render::DrawLine(output, screenP0, screenP1, tri.c0, tri.c1);
+            //Render::DrawLine(output, screenP1, screenP2, tri.c1, tri.c2);
+            Render::DrawLine(output, screenP0, screenP2, tri.c0, tri.c2);
+        }
 
         static double3 GetTriangleNormal(double3 p0, double3 p1, double3 p2) {
             auto v = Math::Cross(p2 - p0, p1 - p0);
