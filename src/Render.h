@@ -4,6 +4,7 @@
 
 #include "code_template/Color.h"
 #include "math/int2.h"
+#include "math/double2.h"
 #include "math/double3.h"
 #include "math/double4x4.h"
 #include "math/Math.h"
@@ -48,14 +49,33 @@ namespace Rasterizer {
             return Math::Mul(rotation, translation);
         }
 
-//        static double4x4 GetVP(int resX, int resY){
-//            return double4x4(
-//                    double4(resX / 2, ),
-//                    double4(),
-//                    double4(),
-//                    double4()
-//                    );
-//        }
+        static double4x4 GetVP(int resX, int resY){
+            return double4x4(
+                    double4(resX / 2.0, 0.0, 0.0, 0.0),
+                    double4(0.0, resY / 2.0, 0.0, 0.0),
+                    double4(0.0, 0.0, 0.5, 0.0),
+                    double4((resX - 1) / 2.0, (resY - 1) / 2.0, 0.5, 0.0)
+                    );
+        }
+
+        // No way this works
+        static double2 WorldToViewportPoint(double3 worldPosition, double3 cameraPos, double3 u, double3 v, double3 w,
+                                               double r, double l, double t, double b, double f, double n, int resX, int resY){
+            auto ortho = GetOrthographic(r, l, t, b, f, n);
+            auto p2o = GetPerspectiveToOrthographic(r, l, t, b, f, n);
+            auto cam = GetWorldToCameraMatrix(cameraPos, u, v, w);
+
+            auto vec = Math::Mul(ortho, Math::Mul(p2o ,Math::Mul(cam, double4(worldPosition, 1.0))));
+            // Perspective divide
+            vec = vec / vec.w;
+
+            auto vp = GetVP(resX, resY);
+            vec = Math::Mul(vp, vec);
+
+            cout << "ResultVector: " << vec.ToString() << endl;
+
+            return double2(vec.x, vec.y);
+        }
 
         static double4x4 GetLocalToWorldMatrix(
                 const vector<int>& transformationIds,
