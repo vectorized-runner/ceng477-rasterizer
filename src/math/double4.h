@@ -63,7 +63,7 @@ namespace Rasterizer {
         }
 
         __attribute__((always_inline))
-        double4 operator/(float other) const {
+        double4 operator/(double other) const {
             return double4(x / other, y / other, z / other, w / other);
         }
 
@@ -83,12 +83,12 @@ namespace Rasterizer {
     };
 
     __attribute__((always_inline))
-    static double4 operator/(float f, double4 v) {
+    static double4 operator/(double f, double4 v) {
         return double4(f / v.x, f / v.y, f / v.z, f / v.w);
     }
 
     __attribute__((always_inline))
-    static double4 operator*(float f, double4 v) {
+    static double4 operator*(double f, double4 v) {
         return double4(f * v.x, f * v.y, f * v.z, f * v.w);
     }
 
