@@ -71,21 +71,6 @@ namespace Rasterizer {
             return Math::TRS(translation, rotationRads, scale);
         }
 
-//        static double4x4 GetRotationMatrix(){
-//            return double4x4(0, 0, 0, 0);
-//        }
-//
-//        static double4x4 GetTranslationMatrix(){
-//
-//        }
-//
-
-//
-//        // Apply transformations
-//        static double3 GetWorldPosition(double3 point){
-//
-//        }
-
         static bool ShouldTriangleBeCulled(double3 triangleNormal, double3 cameraForward) {
             return Math::Dot(triangleNormal, cameraForward) < 0;
         }
