@@ -29,9 +29,9 @@ namespace Rasterizer {
 
             auto transformationCount = transformationIds.size();
 
-            double3 translation = double3(0, 0, 0);
-            double3 rotation = double3(0, 0, 0);
-            double3 scale = double3(1, 1, 1);
+            auto translationMatrix = double4x4::identity();
+            auto rotationMatrix = double4x4::identity();
+            auto scaleMatrix = double4x4::identity();
 
             for (int i = 0; i < transformationCount; ++i) {
                 auto type = transformationTypes[i];
@@ -40,19 +40,19 @@ namespace Rasterizer {
                 switch(type){
                     case 'r':
                     {
-                        // TODO:
                         auto item = rotations[id - 1];
+                        rotationMatrix = Math::RotateDegreesAroundAxis(double3(item.ux, item.uy, item.uz), item.angle);
                         break;
                     }
                     case 't':{
                         auto item = translations[id - 1];
-                        translation = translation + double3(item.tx, item.ty, item.tz);
+                        translationMatrix = Math::TranslationMatrix(double3(item.tx, item.ty, item.tz));
                         break;
                     }
                     case 's':
                     {
                         auto item = scalings[id - 1];
-                        scale = scale * double3(item.sx, item.sy, item.sz);
+                        scaleMatrix = Math::ScaleMatrix(double3(item.sx, item.sy, item.sz));
                         break;
                     }
                     default:
@@ -63,12 +63,8 @@ namespace Rasterizer {
                 }
             }
 
-            auto rotationRads = double3(
-                    Math::Radians(rotation.x),
-                    Math::Radians(rotation.y),
-                    Math::Radians(rotation.z));
-
-            return Math::TRS(translation, rotationRads, scale);
+            // TRS
+            return Math::Mul(translationMatrix, Math::Mul(rotationMatrix, scaleMatrix));
         }
 
         static bool ShouldTriangleBeCulled(double3 triangleNormal, double3 cameraForward) {
