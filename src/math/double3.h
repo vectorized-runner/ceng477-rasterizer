@@ -1,6 +1,6 @@
 
-#ifndef CENG477_RAYTRACER_FLOAT3_H
-#define CENG477_RAYTRACER_FLOAT3_H
+#ifndef CENG477_RAYTRACER_DOUBLE3_H
+#define CENG477_RAYTRACER_DOUBLE3_H
 
 #include <string>
 
@@ -57,7 +57,7 @@ namespace Rasterizer {
         }
 
         __attribute__((always_inline))
-        double3 operator*(float other) const {
+        double3 operator*(double other) const {
             return double3(x * other, y * other, z * other);
         }
 
@@ -67,7 +67,7 @@ namespace Rasterizer {
         }
 
         __attribute__((always_inline))
-        double3 operator/(float other) const {
+        double3 operator/(double other) const {
             return double3(x / other, y / other, z / other);
         }
 
@@ -83,12 +83,12 @@ namespace Rasterizer {
     };
 
     __attribute__((always_inline))
-    static double3 operator/(float f, double3 v) {
+    static double3 operator/(double f, double3 v) {
         return double3(f / v.x, f / v.y, f / v.z);
     }
 
     __attribute__((always_inline))
-    static double3 operator*(float f, double3 v) {
+    static double3 operator*(double f, double3 v) {
         return double3(f * v.x, f * v.y, f * v.z);
     }
 
