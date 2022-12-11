@@ -30,6 +30,7 @@ using namespace Rasterizer;
 	Transformations, clipping, culling, rasterization are done here.
 	You may define helper functions.
 */
+
 void Scene::forwardRenderingPipeline(const Camera& camera)
 {
     Render::DrawLine(image, int2(0, 0), int2(500, 500), double3(0, 0, 255), double3(255, 0, 0));
@@ -44,9 +45,19 @@ void Scene::forwardRenderingPipeline(const Camera& camera)
             auto triangleCount = mesh.triangles.size();
             for (int j = 0; j < triangleCount; ++j) {
                 const auto& tri = mesh.triangles[j];
-
                 auto v0 = vertices[tri.vertexIds[0] - 1];
                 auto v1 = vertices[tri.vertexIds[1] - 1];
+                auto v2 = vertices[tri.vertexIds[2] - 1];
+                auto p0 = v0.GetPos();
+                auto p1 = v1.GetPos();
+                auto p2 = v2.GetPos();
+
+                // Culling
+                if(cullingEnabled && Render::ShouldTriangleBeCulled(p0, p1, p2)){
+                    continue;
+                }
+
+                // TODO: Transform vertices to camera space
 
                 // auto v0 = vertices[]
 
