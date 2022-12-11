@@ -175,16 +175,16 @@ namespace Rasterizer {
                 yi = -1;
                 dy = -dy;
             }
-            auto D = (2 * dy) - dx;
+            auto d = (2 * dy) - dx;
             auto y = y0;
 
             for (auto x = x0; x <= x1; x++) {
                 DrawColor(output, int2(x, y), color);
-                if (D > 0) {
+                if (d > 0) {
                     y = y + yi;
-                    D = D + (2 * (dy - dx));
+                    d = d + (2 * (dy - dx));
                 } else {
-                    D = D + 2 * dy;
+                    d = d + 2 * dy;
                 }
             }
         }
@@ -219,16 +219,16 @@ namespace Rasterizer {
                 dx = -dx;
             }
 
-            auto D = (2 * dx) - dy;
+            auto d = (2 * dx) - dy;
             auto x = x0;
 
             for (auto y = y0; y <= y1; y++) {
                 DrawColor(output, int2(x, y), color);
-                if (D > 0) {
+                if (d > 0) {
                     x = x + xi;
-                    D = D + (2 * (dx - dy));
+                    d = d + (2 * (dx - dy));
                 } else {
-                    D = D + 2 * dx;
+                    d = d + 2 * dx;
                 }
             }
         }
