@@ -60,7 +60,7 @@ namespace Rasterizer {
 
         // No way this works
         static double2 WorldToViewportPoint(double3 worldPosition, double3 cameraPos, double3 u, double3 v, double3 w,
-                                               double r, double l, double t, double b, double f, double n, int resX, int resY){
+                                               double r, double l, double t, double b, double f, double n){
             auto ortho = GetOrthographic(r, l, t, b, f, n);
             auto p2o = GetPerspectiveToOrthographic(r, l, t, b, f, n);
             auto cam = GetWorldToCameraMatrix(cameraPos, u, v, w);
@@ -68,6 +68,8 @@ namespace Rasterizer {
             auto vec = Math::Mul(ortho, Math::Mul(p2o ,Math::Mul(cam, double4(worldPosition, 1.0))));
             // Perspective divide
             vec = vec / vec.w;
+
+            cout << "WorldPos: " << worldPosition.ToString() << "Vec: " << vec.ToString() << endl;
 
             return double2(vec.x, vec.y);
         }

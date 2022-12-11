@@ -88,7 +88,7 @@ void Scene::forwardRenderingPipeline(const Camera& camera)
                     continue;
                 }
 
-                auto viewportP0 = Render::WorldToViewportPoint(worldP0, cameraPos, u, v, w, r, l, t, b, f, n, resX, resY);
+                auto viewportP0 = Render::WorldToViewportPoint(worldP0, cameraPos, u, v, w, r, l, t, b, f, n);
                 auto screenP0 = Render::ViewportToScreenPoint(viewportP0, resX, resY);
 
                 cout << "Viewport P0 is: " << viewportP0.ToString() << endl;
