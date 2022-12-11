@@ -59,7 +59,7 @@ namespace Rasterizer {
         }
 
         // No way this works
-        static double2 WorldToViewportPoint(double3 worldPosition, double3 cameraPos, double3 u, double3 v, double3 w,
+        static double2 WorldToViewportPerspective(double3 worldPosition, double3 cameraPos, double3 u, double3 v, double3 w,
                                                double r, double l, double t, double b, double f, double n){
             auto ortho = GetOrthographic(r, l, t, b, f, n);
             auto p2o = GetPerspectiveToOrthographic(r, l, t, b, f, n);
