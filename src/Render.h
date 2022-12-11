@@ -20,6 +20,15 @@ namespace Rasterizer {
             return -v / Math::Length(v);
         }
 
+        static double4x4 GetOrthographic(double r, double l, float t, float b, float f, float n){
+            return double4x4(
+                    double4(2 / (r - l), 0, 0, 0),
+                    double4(0, 2 / (t - b), 0, 0),
+                    double4(0, 0, -2 / (f - n), 0),
+                    double4(-(r + l) / (r - l), -(t + b) / (t - b), - (f + n) / (f - n), 1)
+                    );
+        }
+
         static double4x4 GetLocalToWorldMatrix(
                 const vector<int>& transformationIds,
                 const vector<char>& transformationTypes,
