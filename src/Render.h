@@ -86,8 +86,8 @@ namespace Rasterizer {
 //
 //        }
 
-        static bool ShouldTriangleBeCulled(double3 v0, double3 v1, double3 v2) {
-            return false;
+        static bool ShouldTriangleBeCulled(double3 triangleNormal, double3 cameraForward) {
+            return Math::Dot(triangleNormal, cameraForward) < 0;
         }
 
         static void
