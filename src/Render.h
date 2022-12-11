@@ -114,6 +114,7 @@ namespace Rasterizer {
             return int2((int)screenX, (int)screenY);
         }
 
+        // TODO: These are incorrect. We will to origin then scale it etc. We're on the right track.
         static double4x4 GetLocalToWorldMatrix(
                 const vector<int>& transformationIds,
                 const vector<char>& transformationTypes,
@@ -122,10 +123,7 @@ namespace Rasterizer {
                 const vector<Translation>& translations) {
 
             auto transformationCount = transformationIds.size();
-
-            auto translationMatrix = double4x4::identity();
-            auto rotationMatrix = double4x4::identity();
-            auto scaleMatrix = double4x4::identity();
+            auto result = double4x4::identity();
 
             for (int i = 0; i < transformationCount; ++i) {
                 auto type = transformationTypes[i];
@@ -135,18 +133,21 @@ namespace Rasterizer {
                     case 'r': {
                         auto item = rotations[id - 1];
                         // TODO: I don't trust this works
-                        rotationMatrix = double4x4::identity();
+                        auto rotationMatrix = double4x4::identity();
                         // rotationMatrix = Math::RotateDegreesAroundAxis(double3(item.ux, item.uy, item.uz), item.angle);
+                        result = Math::Mul(rotationMatrix, result);
                         break;
                     }
                     case 't': {
                         auto item = translations[id - 1];
-                        translationMatrix = Math::TranslationMatrix(double3(item.tx, item.ty, item.tz));
+                        auto translationMatrix = Math::TranslationMatrix(double3(item.tx, item.ty, item.tz));
+                        result = Math::Mul(translationMatrix, result);
                         break;
                     }
                     case 's': {
                         auto item = scalings[id - 1];
-                        scaleMatrix = Math::ScaleMatrix(double3(item.sx, item.sy, item.sz));
+                        auto scaleMatrix = Math::ScaleMatrix(double3(item.sx, item.sy, item.sz));
+                        result = Math::Mul(scaleMatrix, result);
                         break;
                     }
                     default: {
@@ -156,8 +157,7 @@ namespace Rasterizer {
                 }
             }
 
-            // TRS
-            return Math::Mul(translationMatrix, Math::Mul(rotationMatrix, scaleMatrix));
+            return result;
         }
 
         static bool ShouldTriangleBeCulled(double3 triangleNormal, double3 cameraForward) {
