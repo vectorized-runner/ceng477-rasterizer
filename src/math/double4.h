@@ -22,6 +22,13 @@ namespace Rasterizer {
             this->w = 0;
         }
 
+        double4(double3 xyz, double w) {
+            this->x = xyz.x;
+            this->y = xyz.y;
+            this->z = xyz.z;
+            this->w = w;
+        }
+
         __attribute__((always_inline))
         double4(double x, double y, double z, double w) {
             this->x = x;
@@ -68,6 +75,10 @@ namespace Rasterizer {
         __attribute__((always_inline))
         string ToString() const {
             return "(" + to_string(x) + ", " + to_string(y) + ", " + to_string(z) + ", " + to_string(w) + ")";
+        }
+
+        double3 xyz() const{
+            return double3(x, y, z);
         }
     };
 
