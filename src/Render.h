@@ -75,7 +75,8 @@ namespace Rasterizer {
             auto cam = GetWorldToCameraMatrix(cameraPos, u, v, w);
             auto vec = Math::Mul(per, Math::Mul(cam, double4(worldPosition, 1.0)));
             // Perspective divide
-            vec = vec / vec.w;
+            // Note: I've added this (-) component, only works this way?
+            vec = vec / -vec.w;
 
             cout << "WorldPos: " << worldPosition.ToString() << "Vec: " << vec.ToString() << endl;
 
@@ -83,6 +84,7 @@ namespace Rasterizer {
         }
 
         // TODO: Consider doing with Matrix
+        // TODO: Is clamping by casting the right way?
         static int2 ViewportToScreenPoint(double2 viewport, int resX, int resY){
             Debug::Assert(abs(viewport.x) <= 1.0, "Viewport X error.");
             Debug::Assert(abs(viewport.y) <= 1.0, "Viewport Y error.");
@@ -115,7 +117,9 @@ namespace Rasterizer {
                     case 'r':
                     {
                         auto item = rotations[id - 1];
-                        rotationMatrix = Math::RotateDegreesAroundAxis(double3(item.ux, item.uy, item.uz), item.angle);
+                        // TODO: I don't trust this works
+                        rotationMatrix = double4x4::identity();
+                        // rotationMatrix = Math::RotateDegreesAroundAxis(double3(item.ux, item.uy, item.uz), item.angle);
                         break;
                     }
                     case 't':{
