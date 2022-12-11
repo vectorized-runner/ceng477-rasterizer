@@ -30,12 +30,22 @@ namespace Rasterizer {
         }
 
         __attribute__((always_inline))
+        static int Min(int x, int y) {
+            return x < y ? x : y;
+        }
+
+        __attribute__((always_inline))
         static double3 Min(double3 x, double3 y) {
             return double3(Min(x.x, y.x), Min(x.y, y.y), Min(x.z, y.z));
         }
 
         __attribute__((always_inline))
         static double Max(double x, double y) {
+            return x > y ? x : y;
+        }
+
+        __attribute__((always_inline))
+        static int Max(int x, int y) {
             return x > y ? x : y;
         }
 
@@ -102,6 +112,11 @@ namespace Rasterizer {
 
         __attribute__((always_inline))
         static double Clamp(double x, double a, double b) {
+            return Max(a, Min(b, x));
+        }
+
+        __attribute__((always_inline))
+        static int Clamp(int x, int a, int b) {
             return Max(a, Min(b, x));
         }
 
