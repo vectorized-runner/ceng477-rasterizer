@@ -6,6 +6,7 @@
 #include "code_template/Helpers.h"
 #include "math/double4x4.h"
 #include "math/Math.h"
+#include "Render.h"
 
 using namespace std;
 
@@ -62,9 +63,24 @@ void TestTRS(){
     cout << res.ToString() << endl;
 }
 
+void TestWorldToCamera(){
+    auto pos = double3(1, 0, 0);
+    auto u = double3(1, 0, 0);
+    auto v = double3(0, 1, 0);
+    auto w = double3(0, 0, 1);
+
+    auto cameraPos = double3(0, 0, 0);
+
+    auto worldToCam = Render::GetWorldToCameraMatrix(cameraPos, u, v, w);
+
+    auto cam = Math::Mul(worldToCam, double4(pos, 1));
+    cout << cam.xyz().ToString() << endl;
+}
+
 int main(int argc, char *argv[])
 {
-    TestTRS();
+
+    TestWorldToCamera();
 
     return 0;
 

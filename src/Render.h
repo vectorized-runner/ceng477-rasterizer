@@ -37,7 +37,7 @@ namespace Rasterizer {
                     double4(0, 0, -2 * f * n / (f - n), 0));
         }
 
-        static double4x4 GetCameraMatrix(double3 pos, double3 u, double3 v, double3 w){
+        static double4x4 GetWorldToCameraMatrix(double3 pos, double3 u, double3 v, double3 w){
             auto translation = Math::TranslationMatrix(-pos);
             auto rotation = double4x4(
                     double4(u.x, v.x, w.x, 0),
@@ -47,6 +47,16 @@ namespace Rasterizer {
 
             return Math::Mul(rotation, translation);
         }
+
+//        static double4x4 GetVP(int resX, int resY){
+//            return double4x4(
+//                    double4(resX / 2, ),
+//                    double4(),
+//                    double4(),
+//                    double4()
+//                    );
+//        }
+
         static double4x4 GetLocalToWorldMatrix(
                 const vector<int>& transformationIds,
                 const vector<char>& transformationTypes,
