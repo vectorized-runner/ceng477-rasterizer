@@ -30,7 +30,7 @@ namespace Rasterizer {
                     );
         }
 
-        static double4x4 GetPerspectiveToOrthographic(double r, double l, double t, double b, double f, double n){
+        static double4x4 GetPerspective(double r, double l, double t, double b, double f, double n){
             return double4x4(
                     double4(2 * n / (r - l), 0, 0, 0),
                     double4(0, 2 * n / (t - b), 0, 0),
@@ -70,11 +70,10 @@ namespace Rasterizer {
         // No way this works
         static double2 WorldToViewportPerspective(double3 worldPosition, double3 cameraPos, double3 u, double3 v, double3 w,
                                                double r, double l, double t, double b, double f, double n){
-            auto ortho = GetOrthographic(r, l, t, b, f, n);
-            auto p2o = GetPerspectiveToOrthographic(r, l, t, b, f, n);
-            auto cam = GetWorldToCameraMatrix(cameraPos, u, v, w);
 
-            auto vec = Math::Mul(ortho, Math::Mul(p2o ,Math::Mul(cam, double4(worldPosition, 1.0))));
+            auto per = GetPerspective(r, l, t, b, f, n);
+            auto cam = GetWorldToCameraMatrix(cameraPos, u, v, w);
+            auto vec = Math::Mul(per, Math::Mul(cam, double4(worldPosition, 1.0)));
             // Perspective divide
             vec = vec / vec.w;
 
