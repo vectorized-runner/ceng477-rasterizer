@@ -72,6 +72,11 @@ void Scene::forwardRenderingPipeline(Camera& camera)
 //    Render::DrawTriangle(image, mytri2, mycam, resX, resY);
 //    return;
 
+    camera.pos = Vec3(0, 0, -60, -1);
+    camera.u = Vec3(1, 0, 0, -1);
+    camera.v = Vec3(0, 1, 0, -1);
+    camera.w = Vec3(0, 0, 1, -1);
+
     auto meshCount = meshes.size();
     auto cameraForward = camera.w.GetPos();
     auto cameraPos = camera.pos.GetPos();
@@ -87,6 +92,7 @@ void Scene::forwardRenderingPipeline(Camera& camera)
 
     Debug::Assert(Math::IsNormalized(cameraForward), "CameraForward isn't normalized!");
 
+    // TODO: Don't forget about checking perspective/ortho
     for (int i = 0; i < meshCount; ++i) {
         const auto& mesh = meshes[i];
 
