@@ -12,6 +12,10 @@ namespace Rasterizer {
 
     struct Render {
 
+        static bool ShouldTriangleBeCulled(double3 v0, double3 v1, double3 v2){
+            return false;
+        }
+
         static void DrawLine(vector<vector<Color>>& output, int2 screenPos0, int2 screenPos1, double3 color0, double3 color1) {
             auto x0 = screenPos0.x;
             auto y0 = screenPos0.y;
