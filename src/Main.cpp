@@ -79,11 +79,6 @@ void TestWorldToCamera(){
 
 int main(int argc, char *argv[])
 {
-
-    TestWorldToCamera();
-
-    return 0;
-
     cout << "Start Running Rasterizer" << endl;
 
     if (argc != 2)
