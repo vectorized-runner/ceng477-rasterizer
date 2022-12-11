@@ -189,7 +189,11 @@ namespace Rasterizer {
             }
         }
 
-        static void Plot(vector<vector<Color>>& output, double3 color, int x0, int y0, int x1, int y1) {
+        static void Plot(vector<vector<Color>>& output, double3 color, int2 p0, int2 p1) {
+            auto x0 = p0.x;
+            auto x1 = p1.x;
+            auto y0 = p0.y;
+            auto y1 = p1.y;
             if (abs(y1 - y0) < abs(x1 - x0)) {
                 if (x0 > x1) {
                     PlotLow(output, color, x1, y1, x0, y0);
@@ -231,7 +235,7 @@ namespace Rasterizer {
 
         static void
         DrawLine(vector<vector<Color>>& output, int2 screenPos0, int2 screenPos1, double3 color0, double3 color1) {
-            return Plot(output, color0, screenPos0.x, screenPos0.y, screenPos1.x, screenPos1.y);
+            return Plot(output, color0, screenPos0, screenPos1);
 
             auto x0 = screenPos0.x;
             auto y0 = screenPos0.y;
