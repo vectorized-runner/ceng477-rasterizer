@@ -76,13 +76,8 @@ void Scene::forwardRenderingPipeline(const Camera& camera)
                 }
 
                 // TODO: Transform vertices to camera space
-
-                // auto v0 = vertices[]
-
-                // TODO: Fetch vertices
-                // TODO: Apply transformations
-                // TODO: Draw
-                // TODO: Profit
+                // TODO: Apply clipping
+                // TODO: Create lines, and draw
             }
         }
         else if(mesh.type == 1){
@@ -93,14 +88,6 @@ void Scene::forwardRenderingPipeline(const Camera& camera)
             cout << "Error, Unexpected Mesh Type: " << mesh.type << endl;
         }
     }
-
-//    for(int x = 0; x < 300; x++){
-//        Render::DrawColor(image, int2(x, 100), Color(255, 0, 0));
-//    }
-//
-//    for(int y = 600; y > 300; y--){
-//        Render::DrawColor(image, int2(500, y), Color(255, 255, 0));
-//    }
 
     // TODO: Change pointers to non-pointer ones.
 
@@ -117,11 +104,6 @@ void Scene::forwardRenderingPipeline(const Camera& camera)
     cout << "CullingEnabled: " << cullingEnabled << endl;
     cout << "VertexCount: " << vertices.size() << endl;
     cout << "MeshCount:" << meshes.size() << endl;
-
-	// TODO: Implement this function.
-    cout << "Forward Rendering Begin" << endl;
-
-    cout << "Forward Rendering End" << endl;
 }
 
 /*
