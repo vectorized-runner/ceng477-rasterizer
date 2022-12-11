@@ -82,28 +82,24 @@ void SanityCheck(){
     auto u = double3(1, 0, 0);
     auto v = double3(0, 1, 0);
     auto w = double3(0, 0, 1);
-    auto n = 2;
-    auto f = 100;
+    auto n = 1;
+    auto f = 2;
     auto l = -1;
     auto r = 1;
-    auto t = 2;
-    auto b = -2;
+    auto t = 1;
+    auto b = -1;
 
     // z in 1 direction, should be at the middle of screen
-    auto point = double3(0, 1, 100);
+    auto point = double3(0, 0.5, 1.5);
 
     auto orthoResult = Render::WorldToViewportOrtho(point, cameraPosition, u, v, w, r, l, t, b, f, n);
     auto persResult = Render::WorldToViewportPerspective(point, cameraPosition, u, v, w, r, l, t, b, f, n);
 
-    cout << orthoResult.ToString() << endl;
-    cout << persResult.ToString() << endl;
+    cout << "Ortho: " << orthoResult.ToString() << endl;
+    cout << "Pers: " << persResult.ToString() << endl;
 }
 int main(int argc, char *argv[])
 {
-
-    SanityCheck();
-    return 0;
-
     cout << "Start Running Rasterizer" << endl;
 
     if (argc != 2)
