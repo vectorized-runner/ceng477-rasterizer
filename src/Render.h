@@ -178,7 +178,6 @@ namespace Rasterizer {
             auto d = (2 * dy) - dx;
             auto y = y0;
             auto c = color0;
-            auto dc = (color1 - color0) / (x1 - x0);
 
             for (auto x = x0; x <= x1; x++) {
                 DrawColor(output, int2(x, y), c);
@@ -200,7 +199,7 @@ namespace Rasterizer {
             auto y1 = p1.y;
             if (abs(y1 - y0) < abs(x1 - x0)) {
                 if (x0 > x1) {
-                    PlotLow(output, color0, color1, x1, y1, x0, y0);
+                    PlotLow(output, color1, color0, x1, y1, x0, y0);
                 } else {
                     PlotLow(output, color0, color1, x0, y0, x1, y1);
                 }
