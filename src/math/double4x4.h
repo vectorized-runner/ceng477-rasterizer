@@ -19,6 +19,16 @@ namespace Rasterizer {
             this->c2 = c2;
             this->c3 = c3;
         }
+
+        static double4x4 identity()
+        {
+            return double4x4(
+                    double4(1.0, 0.0, 0.0, 0.0),
+                    double4(0.0, 1.0, 0.0, 0.0),
+                    double4(0.0, 0.0, 1.0, 0.0),
+                    double4(0.0, 0.0, 0.0, 1.0));
+        }
+
     };
 
 } // Rasterizer
