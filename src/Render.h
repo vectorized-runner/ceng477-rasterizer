@@ -167,33 +167,72 @@ namespace Rasterizer {
             return Math::Dot(triangleNormal, cameraForward) < 0;
         }
 
-        static void PlotLow(vector<vector<Color>>& output, double3 color, int x0, int y0, int x1, int y1){
+        static void PlotLow(vector<vector<Color>>& output, double3 color, int x0, int y0, int x1, int y1) {
             auto dx = x1 - x0;
             auto dy = y1 - y0;
             auto yi = 1;
-            if (dy < 0){
+            if (dy < 0) {
                 yi = -1;
                 dy = -dy;
             }
             auto D = (2 * dy) - dx;
             auto y = y0;
 
-            for (auto x = x0; x <= x1; x++){
+            for (auto x = x0; x <= x1; x++) {
                 DrawColor(output, int2(x, y), color);
-                if (D > 0){
+                if (D > 0) {
                     y = y + yi;
                     D = D + (2 * (dy - dx));
-                }
-                else{
-                    D = D + 2*dy;
+                } else {
+                    D = D + 2 * dy;
                 }
             }
         }
 
-        static void 
+        static void Plot(vector<vector<Color>>& output, double3 color, int x0, int y0, int x1, int y1) {
+            if (abs(y1 - y0) < abs(x1 - x0)) {
+                if (x0 > x1) {
+                    PlotLow(output, color, x1, y1, x0, y0);
+                } else {
+                    PlotLow(output, color, x0, y0, x1, y1);
+                }
+            } else {
+                if (y0 > y1) {
+                    PlotHigh(output, color, x1, y1, x0, y0);
+                } else {
+                    PlotHigh(output, color, x0, y0, x1, y1);
+                }
+            }
+        }
+
+        static void PlotHigh(vector<vector<Color>>& output, double3 color, int x0, int y0, int x1, int y1) {
+            auto dx = x1 - x0;
+            auto dy = y1 - y0;
+            auto xi = 1;
+
+            if (dx < 0) {
+                xi = -1;
+                dx = -dx;
+            }
+
+            auto D = (2 * dx) - dy;
+            auto x = x0;
+
+            for (auto y = y0; y <= y1; y++) {
+                DrawColor(output, int2(x, y), color);
+                if (D > 0) {
+                    x = x + xi;
+                    D = D + (2 * (dx - dy));
+                } else {
+                    D = D + 2 * dx;
+                }
+            }
+        }
 
         static void
-        DrawLine(vector <vector<Color>>& output, int2 screenPos0, int2 screenPos1, double3 color0, double3 color1) {
+        DrawLine(vector<vector<Color>>& output, int2 screenPos0, int2 screenPos1, double3 color0, double3 color1) {
+            return Plot(output, color0, screenPos0.x, screenPos0.y, screenPos1.x, screenPos1.y);
+
             auto x0 = screenPos0.x;
             auto y0 = screenPos0.y;
             auto x1 = screenPos1.x;
