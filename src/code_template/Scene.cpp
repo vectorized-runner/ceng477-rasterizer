@@ -34,8 +34,6 @@ using namespace Rasterizer;
 
 void Scene::forwardRenderingPipeline(const Camera& camera)
 {
-    Render::DrawLine(image, int2(0, 0), int2(500, 500), double3(0, 0, 255), double3(255, 0, 0));
-
     auto meshCount = meshes.size();
     auto cameraForward = camera.w.GetPos();
     auto cameraPos = camera.pos.GetPos();
@@ -88,15 +86,34 @@ void Scene::forwardRenderingPipeline(const Camera& camera)
                     continue;
                 }
 
+                auto color0 = colorsOfVertices[v0.colorId - 1].ToDouble3();
+                auto color1 = colorsOfVertices[v1.colorId - 1].ToDouble3();
+                auto color2 = colorsOfVertices[v2.colorId - 1].ToDouble3();
+
                 auto viewportP0 = Render::WorldToViewportPerspective(worldP0, cameraPos, u, v, w, r, l, t, b, f, n);
+                auto viewportP1 = Render::WorldToViewportPerspective(worldP1, cameraPos, u, v, w, r, l, t, b, f, n);
+                auto viewportP2 = Render::WorldToViewportPerspective(worldP2, cameraPos, u, v, w, r, l, t, b, f, n);
+
                 auto screenP0 = Render::ViewportToScreenPoint(viewportP0, resX, resY);
+                auto screenP1 = Render::ViewportToScreenPoint(viewportP1, resX, resY);
+                auto screenP2 = Render::ViewportToScreenPoint(viewportP2, resX, resY);
 
-                cout << "Viewport P0 is: " << viewportP0.ToString() << endl;
-                cout << "Screen P0 is: " << screenP0.ToString() << endl;
+                // cout << "Viewport P0 is: " << viewportP0.ToString() << endl;
+                // cout << "Screen P0 is: " << screenP0.ToString() << endl;
 
-                // TODO: Transform vertices to camera space
                 // TODO: Apply clipping
-                // TODO: Create lines, and draw
+
+                // TODO: Remove this, not correct way to do it!
+                screenP0.x = Math::Clamp(screenP0.x, 0, resX);
+                screenP0.y = Math::Clamp(screenP0.y, 0, resY);
+                screenP1.x = Math::Clamp(screenP1.x, 0, resX);
+                screenP1.y = Math::Clamp(screenP1.y, 0, resY);
+                screenP2.x = Math::Clamp(screenP2.x, 0, resX);
+                screenP2.y = Math::Clamp(screenP2.y, 0, resY);
+
+                Render::DrawLine(image, screenP0, screenP1, color0, color1);
+                Render::DrawLine(image, screenP1, screenP2, color1, color2);
+                Render::DrawLine(image, screenP2, screenP0, color2, color0);
             }
         }
         else if(mesh.type == 1){
