@@ -30,6 +30,7 @@ namespace Rasterizer {
         }
 
         void print() {
+            cout << "Matrix:" << endl;
             cout << "[" << c0.x << ", " << c1.x << ", " << c2.x << ", " << c3.x << "]" << endl;
             cout << "[" << c0.y << ", " << c1.y << ", " << c2.y << ", " << c3.y << "]" << endl;
             cout << "[" << c0.z << ", " << c1.z << ", " << c2.z << ", " << c3.z << "]" << endl;

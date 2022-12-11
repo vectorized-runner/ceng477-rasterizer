@@ -115,6 +115,11 @@ namespace Rasterizer {
                     a.c0 * b.c3.x + a.c1 * b.c3.y + a.c2 * b.c3.z + a.c3 * b.c3.w);
         }
 
+        static double4 Mul(double4x4 a, double4 b)
+        {
+            return a.c0 * b.x + a.c1 * b.y + a.c2 * b.z + a.c3 * b.w;
+        }
+
         static double4x4 TranslationMatrix(double3 translate){
             return double4x4(double4(1.0, 0.0, 0.0, 0.0),
                              double4(0.0, 1.0, 0.0, 0.0),
@@ -157,9 +162,14 @@ namespace Rasterizer {
                              double4(0.0, 0.0, 0.0, 1.0));
         }
 
-        static double4x4 TRS(double3 position, double3 rotationRads, double3 scale){
-            return Math::Mul(TranslationMatrix(position),
+        static double4x4 TRS(double3 translation, double3 rotationRads, double3 scale){
+            return Math::Mul(TranslationMatrix(translation),
                              Math::Mul(RotationMatrix(rotationRads), ScaleMatrix(scale)));
+        }
+
+        static double3 LocalToWorld(double3 position, double3 translation, double3 rotation, double3 scale){
+            auto res = Math::Mul(TRS(translation, rotation, scale), double4(position.x, position.y, position.z, 1.0));
+            return double3(res.x, res.y, res.z);
         }
     };
 
