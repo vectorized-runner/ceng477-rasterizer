@@ -33,16 +33,18 @@ using namespace Rasterizer;
 */
 void Scene::forwardRenderingPipeline(Camera& camera)
 {
+    cout << "left " << camera.left << endl;
+
     auto resX = camera.horRes;
     auto resY = camera.verRes;
 
-    auto mytri = triangle();
-    mytri.p0 = double3(-0.5, 0.0, 0.0);
-    mytri.c0 = double3(255, 0, 0);
-    mytri.p1 = double3(0.5, 0.0, 0.0);
-    mytri.c1 = double3(0, 255, 0);
-    mytri.p2 = double3(0.0, 1.0, 0.0);
-    mytri.c2 = double3(0, 0, 255);
+    auto mytri1 = triangle();
+    mytri1.p0 = double3(-0.5, 0.0, 0.0);
+    mytri1.c0 = double3(255, 0, 0);
+    mytri1.p1 = double3(0.5, 0.0, 0.0);
+    mytri1.c1 = double3(0, 255, 0);
+    mytri1.p2 = double3(0.0, 1.0, 0.0);
+    mytri1.c2 = double3(0, 0, 255);
 
     auto mycam = cam();
     mycam.u = double3(1, 0, 0);
@@ -53,10 +55,10 @@ void Scene::forwardRenderingPipeline(Camera& camera)
     mycam.f = 10;
     mycam.t = 2;
     mycam.b = -2;
-    mycam.l = 2;
-    mycam.r = -2;
+    mycam.l = -2;
+    mycam.r = 2;
 
-    Render::DrawTriangle(image, mytri, mycam, resX, resY);
+    Render::DrawTriangle(image, mytri1, mycam, resX, resY);
     return;
 
     auto meshCount = meshes.size();
