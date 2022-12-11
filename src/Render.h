@@ -34,8 +34,8 @@ namespace Rasterizer {
             //cout << screenP1.ToString() << endl;
             cout << screenP2.ToString() << endl;
 
-            //Render::DrawLine(output, screenP0, screenP1, tri.c0, tri.c1);
-            //Render::DrawLine(output, screenP1, screenP2, tri.c1, tri.c2);
+            Render::DrawLine(output, screenP0, screenP1, tri.c0, tri.c1);
+            Render::DrawLine(output, screenP1, screenP2, tri.c1, tri.c2);
             Render::DrawLine(output, screenP0, screenP2, tri.c0, tri.c2);
         }
 
