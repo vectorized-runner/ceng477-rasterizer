@@ -149,6 +149,31 @@ namespace Rasterizer {
             return Math::Dot(triangleNormal, cameraForward) < 0;
         }
 
+        static void PlotLow(vector<vector<Color>>& output, double3 color, int x0, int y0, int x1, int y1){
+            auto dx = x1 - x0;
+            auto dy = y1 - y0;
+            auto yi = 1;
+            if (dy < 0){
+                yi = -1;
+                dy = -dy;
+            }
+            auto D = (2 * dy) - dx;
+            auto y = y0;
+
+            for (auto x = x0; x <= x1; x++){
+                DrawColor(output, int2(x, y), color);
+                if (D > 0){
+                    y = y + yi;
+                    D = D + (2 * (dy - dx));
+                }
+                else{
+                    D = D + 2*dy;
+                }
+            }
+        }
+
+        static void 
+
         static void
         DrawLine(vector <vector<Color>>& output, int2 screenPos0, int2 screenPos1, double3 color0, double3 color1) {
             auto x0 = screenPos0.x;
