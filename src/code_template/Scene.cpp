@@ -119,10 +119,10 @@ void Scene::forwardRenderingPipeline(Camera& camera)
                 auto normal = Render::GetTriangleNormal(worldP0, worldP1, worldP2);
 
                 // Culling
-                // if(cullingEnabled && Render::ShouldTriangleBeCulled(normal, cameraForward)){
-                //     Debug::Log("Culling this Triangle.");
-                //     continue;
-                // }
+                 if(cullingEnabled && Render::ShouldTriangleBeCulled(normal, cameraForward)){
+                     Debug::Log("Culling this Triangle.");
+                     continue;
+                 }
 
                 auto color0 = colorsOfVertices[v0.colorId - 1].ToDouble3();
                 auto color1 = colorsOfVertices[v1.colorId - 1].ToDouble3();
