@@ -5,6 +5,7 @@
 #include "code_template/Color.h"
 #include "math/int2.h"
 #include "math/double3.h"
+#include "math/double4x4.h"
 #include "math/Math.h"
 
 using namespace std;
@@ -17,11 +18,32 @@ namespace Rasterizer {
             auto v = Math::Cross(p2 - p0, p1 - p0);
             return -v / Math::Length(v);
         }
-        static bool ShouldTriangleBeCulled(double3 v0, double3 v1, double3 v2){
+
+        static double4x4 GetLocalToWorldMatrix() {
+
+        }
+
+//        static double4x4 GetRotationMatrix(){
+//            return double4x4(0, 0, 0, 0);
+//        }
+//
+//        static double4x4 GetTranslationMatrix(){
+//
+//        }
+//
+
+//
+//        // Apply transformations
+//        static double3 GetWorldPosition(double3 point){
+//
+//        }
+
+        static bool ShouldTriangleBeCulled(double3 v0, double3 v1, double3 v2) {
             return false;
         }
 
-        static void DrawLine(vector<vector<Color>>& output, int2 screenPos0, int2 screenPos1, double3 color0, double3 color1) {
+        static void
+        DrawLine(vector <vector<Color>>& output, int2 screenPos0, int2 screenPos1, double3 color0, double3 color1) {
             auto x0 = screenPos0.x;
             auto y0 = screenPos0.y;
             auto x1 = screenPos1.x;
@@ -45,7 +67,7 @@ namespace Rasterizer {
             }
         }
 
-        static void DrawColor(vector<vector<Color>>& output, int2 screenPos, double3 color) {
+        static void DrawColor(vector <vector<Color>>& output, int2 screenPos, double3 color) {
             output[screenPos.x][screenPos.y] = Color(color.x, color.y, color.z);
         }
     };
