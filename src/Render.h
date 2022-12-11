@@ -171,6 +171,8 @@ namespace Rasterizer {
             auto dx = x1 - x0;
             auto dy = y1 - y0;
             auto yi = 1;
+            auto dc = (color1 - color0) / dx;
+
             if (dy < 0) {
                 yi = -1;
                 dy = -dy;
@@ -205,7 +207,7 @@ namespace Rasterizer {
                 }
             } else {
                 if (y0 > y1) {
-                    PlotHigh(output, color0, color1, x1, y1, x0, y0);
+                    PlotHigh(output, color1, color0, x1, y1, x0, y0);
                 } else {
                     PlotHigh(output, color0, color1, x0, y0, x1, y1);
                 }
@@ -216,6 +218,7 @@ namespace Rasterizer {
             auto dx = x1 - x0;
             auto dy = y1 - y0;
             auto xi = 1;
+            auto dc = (color1 - color0) / dy;
 
             if (dx < 0) {
                 xi = -1;
@@ -234,6 +237,8 @@ namespace Rasterizer {
                 } else {
                     d = d + 2 * dx;
                 }
+
+                c = c + dc;
             }
         }
 
