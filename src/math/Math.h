@@ -145,6 +145,18 @@ namespace Rasterizer {
             return Mul(RotationX(radians.x), Mul(RotationY(radians.y), RotationZ(radians.z)));
         }
 
+        static bool AreEqual(double4x4 a, double4x4 b){
+            return AreEqual(a.c0, b.c0) && AreEqual(a.c1, b.c1) && AreEqual(a.c2, b.c2) && AreEqual(a.c3, b.c3);
+        }
+
+        static bool AreEqual(double4 a, double4 b){
+            return AreEqual(a.x, b.x) && AreEqual(a.y, b.y) && AreEqual(a.z, b.z) && AreEqual(a.w, b.w);
+        }
+
+        static bool AreEqual(double a, double b){
+            return abs(a - b) < Epsilon;
+        }
+
         // Remember: Our matrices are column-based!
         static double4x4 RotationX(double radX){
             return double4x4(double4(1.0, 0.0, 0.0, 0.0),
