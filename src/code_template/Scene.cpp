@@ -3,7 +3,6 @@
 #pragma ide diagnostic ignored "readability-convert-member-functions-to-static"
 
 #include <iostream>
-#include <cstdlib>
 #include <cstring>
 #include <fstream>
 #include "Scene.h"
@@ -17,12 +16,9 @@
 #include "Vec3.h"
 #include "tinyxml2.h"
 #include "Helpers.h"
-#include <iomanip>
-#include <cmath>
 
 #include "../Debug.h"
 #include "../Render.h"
-#include "../math/Math.h"
 
 using namespace tinyxml2;
 using namespace std;
@@ -33,47 +29,8 @@ using namespace Rasterizer;
 	You may define helper functions.
 */
 void Scene::forwardRenderingPipeline(const Camera& camera) {
-
-    auto resolution = int2(camera.horRes, camera.verRes);
-
-    // This is test drawing method
-//    auto mytri1 = triangle();
-//    mytri1.p0 = double3(-0.5, 0.0, 0.0);
-//    mytri1.c0 = double3(255, 0, 0);
-//    mytri1.p1 = double3(0.5, 0.0, 0.0);
-//    mytri1.c1 = double3(0, 255, 0);
-//    mytri1.p2 = double3(0.0, 1.0, 0.0);
-//    mytri1.c2 = double3(0, 0, 255);
-//
-//    mytri1.p0 = Math::ScalePoint(double3(2.0, 2.0, 2.0), mytri1.p0);
-//    mytri1.p1 = Math::ScalePoint(double3(2.0, 2.0, 2.0), mytri1.p1);
-//    mytri1.p2 = Math::ScalePoint(double3(2.0, 2.0, 2.0), mytri1.p2);
-//
-//    auto mytri2 = triangle();
-//    mytri2.p0 = double3(-0.5, 0.0, 0.0);
-//    mytri2.c0 = double3(255, 0, 0);
-//    mytri2.p1 = double3(0.5, 0.0, 0.0);
-//    mytri2.c1 = double3(0, 255, 0);
-//    mytri2.p2 = double3(0.0, -1.0, 0.0);
-//    mytri2.c2 = double3(255, 255, 0);
-//
-//    auto mycam = cam();
-//    mycam.u = double3(1, 0, 0);
-//    mycam.v = double3(0, 1, 0);
-//    mycam.w = double3(0, 0, 1);
-//    mycam.position = double3(0, 0, -1);
-//    mycam.n = 1;
-//    mycam.f = 10;
-//    mycam.t = 2;
-//    mycam.b = -2;
-//    mycam.l = -2;
-//    mycam.r = 2;
-//
-//    Render::DrawTriangle(image, mytri1, mycam, resolution);
-//    Render::DrawTriangle(image, mytri2, mycam, resolution);
-//    return;
-
     // Remember: Gaze = -w = Forward
+    auto resolution = int2(camera.horRes, camera.verRes);
     auto meshCount = meshes.size();
     auto cameraPos = camera.pos.GetPos();
     auto u = camera.u.GetPos();
@@ -148,17 +105,15 @@ void Scene::forwardRenderingPipeline(const Camera& camera) {
 
             // TODO: Apply clipping
 
-            if(mesh.type == 0){
+            if (mesh.type == 0) {
                 // Wireframe
                 Render::DrawLine(image, screenP0, screenP1, color0, color1, resolution);
                 Render::DrawLine(image, screenP1, screenP2, color1, color2, resolution);
                 Render::DrawLine(image, screenP2, screenP0, color2, color0, resolution);
-            }
-            else if(mesh.type == 1){
+            } else if (mesh.type == 1) {
                 // Solid
                 Render::DrawTriangle(image, screenP0, screenP1, screenP2, color0, color1, color2, resolution);
-            }
-            else{
+            } else {
                 cout << "Error, Unexpected Mesh Type: " << mesh.type << endl;
             }
         }
