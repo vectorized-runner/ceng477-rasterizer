@@ -25,14 +25,10 @@ namespace Rasterizer {
 
             for (int y = minY; y < maxY; ++y) {
                 for (int x = minX; x < maxX; ++x) {
-                    auto p = int2(x, y);
-                    // TODO: Cleanup
-                    auto a = screen0;
-                    auto b = screen1;
-                    auto c = screen2;
-                    auto v0 = b - a;
-                    auto v1 = c - a;
-                    auto v2 = p - a;
+                    auto point = int2(x, y);
+                    auto v0 = screen1 - screen0;
+                    auto v1 = screen2 - screen0;
+                    auto v2 = point - screen0;
                     auto d00 = (float)Math::Dot(v0, v0);
                     auto d01 = (float)Math::Dot(v0, v1);
                     auto d11 = (float)Math::Dot(v1, v1);
