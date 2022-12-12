@@ -86,7 +86,7 @@ void Scene::forwardRenderingPipeline(const Camera& camera) {
     auto b = camera.bottom;
     auto t = camera.top;
 
-     for (int i = 0; i < meshCount; ++i) {
+    for (int i = 0; i < meshCount; ++i) {
         const auto& mesh = meshes[i];
 
         Debug::Assert(mesh.transformationTypes.size() == mesh.transformationIds.size(),
@@ -130,19 +130,17 @@ void Scene::forwardRenderingPipeline(const Camera& camera) {
                 auto viewportP1 = double2(0, 0);
                 auto viewportP2 = double2(0, 0);
 
-                if(camera.projectionType == 0){
+                if (camera.projectionType == 0) {
                     // Ortho
                     viewportP0 = Render::WorldToViewportOrtho(worldP0, cameraPos, u, v, w, r, l, t, b, f, n);
                     viewportP1 = Render::WorldToViewportOrtho(worldP1, cameraPos, u, v, w, r, l, t, b, f, n);
                     viewportP2 = Render::WorldToViewportOrtho(worldP2, cameraPos, u, v, w, r, l, t, b, f, n);
-                }
-                else if(camera.projectionType == 1){
+                } else if (camera.projectionType == 1) {
                     // Perspective
                     viewportP0 = Render::WorldToViewportPerspective(worldP0, cameraPos, u, v, w, r, l, t, b, f, n);
                     viewportP1 = Render::WorldToViewportPerspective(worldP1, cameraPos, u, v, w, r, l, t, b, f, n);
                     viewportP2 = Render::WorldToViewportPerspective(worldP2, cameraPos, u, v, w, r, l, t, b, f, n);
-                }
-                else{
+                } else {
                     Debug::Log("Unexpected projection type.");
                 }
 
