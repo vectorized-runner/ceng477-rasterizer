@@ -18,8 +18,9 @@ namespace Rasterizer {
 
     struct Render {
 
-        static double TriangleArea(double2 p1, double2 p2, double2 p3){
-            return 0.5 * (p1.x * (p2.y - p3.y) + p2.x * (p3.y - p1.y) + p3.x * (p1.y - p2.y));
+        static double TriangleArea(double2 a, double2 b, double2 c){
+            auto res = a.x * (b.y - c.y) + b.x * (c.y - a.y) + c.x * (a.y - b.y);
+            return 0.5 * abs(res);
         }
 
         static void DrawTriangle(vector<vector<Color>>& output, int2 screen0, int2 screen1, int2 screen2, double3 color0, double3 color1, double3 color2, int2 resolution){
