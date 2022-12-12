@@ -33,51 +33,58 @@ using namespace Rasterizer;
 	You may define helper functions.
 */
 void Scene::forwardRenderingPipeline(Camera& camera) {
-    cout << "left " << camera.left << endl;
+
+    // TODO: Why is left negative?
+
+
+    cout << camera.pos.GetPos().ToString() << endl;
 
     auto resolution = int2(camera.horRes, camera.verRes);
 
     // This is test drawing method
-    auto mytri1 = triangle();
-    mytri1.p0 = double3(-0.5, 0.0, 0.0);
-    mytri1.c0 = double3(255, 0, 0);
-    mytri1.p1 = double3(0.5, 0.0, 0.0);
-    mytri1.c1 = double3(0, 255, 0);
-    mytri1.p2 = double3(0.0, 1.0, 0.0);
-    mytri1.c2 = double3(0, 0, 255);
+//    auto mytri1 = triangle();
+//    mytri1.p0 = double3(-0.5, 0.0, 0.0);
+//    mytri1.c0 = double3(255, 0, 0);
+//    mytri1.p1 = double3(0.5, 0.0, 0.0);
+//    mytri1.c1 = double3(0, 255, 0);
+//    mytri1.p2 = double3(0.0, 1.0, 0.0);
+//    mytri1.c2 = double3(0, 0, 255);
+//
+//    mytri1.p0 = Math::ScalePoint(double3(2.0, 2.0, 2.0), mytri1.p0);
+//    mytri1.p1 = Math::ScalePoint(double3(2.0, 2.0, 2.0), mytri1.p1);
+//    mytri1.p2 = Math::ScalePoint(double3(2.0, 2.0, 2.0), mytri1.p2);
+//
+//    auto mytri2 = triangle();
+//    mytri2.p0 = double3(-0.5, 0.0, 0.0);
+//    mytri2.c0 = double3(255, 0, 0);
+//    mytri2.p1 = double3(0.5, 0.0, 0.0);
+//    mytri2.c1 = double3(0, 255, 0);
+//    mytri2.p2 = double3(0.0, -1.0, 0.0);
+//    mytri2.c2 = double3(255, 255, 0);
+//
+//    auto mycam = cam();
+//    mycam.u = double3(1, 0, 0);
+//    mycam.v = double3(0, 1, 0);
+//    mycam.w = double3(0, 0, 1);
+//    mycam.position = double3(0, 0, -1);
+//    mycam.n = 1;
+//    mycam.f = 10;
+//    mycam.t = 2;
+//    mycam.b = -2;
+//    mycam.l = -2;
+//    mycam.r = 2;
+//
+//    Render::DrawTriangle(image, mytri1, mycam, resolution);
+//    Render::DrawTriangle(image, mytri2, mycam, resolution);
+//    return;
 
-    mytri1.p0 = Math::ScalePoint(double3(2.0, 2.0, 2.0), mytri1.p0);
-    mytri1.p1 = Math::ScalePoint(double3(2.0, 2.0, 2.0), mytri1.p1);
-    mytri1.p2 = Math::ScalePoint(double3(2.0, 2.0, 2.0), mytri1.p2);
 
-    auto mytri2 = triangle();
-    mytri2.p0 = double3(-0.5, 0.0, 0.0);
-    mytri2.c0 = double3(255, 0, 0);
-    mytri2.p1 = double3(0.5, 0.0, 0.0);
-    mytri2.c1 = double3(0, 255, 0);
-    mytri2.p2 = double3(0.0, -1.0, 0.0);
-    mytri2.c2 = double3(255, 255, 0);
-
-    auto mycam = cam();
-    mycam.u = double3(1, 0, 0);
-    mycam.v = double3(0, 1, 0);
-    mycam.w = double3(0, 0, 1);
-    mycam.position = double3(0, 0, -1);
-    mycam.n = 1;
-    mycam.f = 10;
-    mycam.t = 2;
-    mycam.b = -2;
-    mycam.l = -2;
-    mycam.r = 2;
-
-    Render::DrawTriangle(image, mytri1, mycam, resolution);
-    Render::DrawTriangle(image, mytri2, mycam, resolution);
-    return;
-
+    // TODO: Remvoe these once we're done
     camera.pos = Vec3(0, 0, 0, -1);
     camera.u = Vec3(1, 0, 0, -1);
     camera.v = Vec3(0, 1, 0, -1);
     camera.w = Vec3(0, 0, 1, -1);
+    camera.pos.SetPos(camera.pos.GetPos() + double3(20, -10, 10));
 
     auto meshCount = meshes.size();
     auto cameraForward = camera.w.GetPos();
