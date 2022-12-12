@@ -73,8 +73,8 @@ void Scene::forwardRenderingPipeline(const Camera& camera) {
 //    Render::DrawTriangle(image, mytri2, mycam, resolution);
 //    return;
 
+    // Remember: Gaze = -w = Forward
     auto meshCount = meshes.size();
-    auto cameraForward = camera.w.GetPos();
     auto cameraPos = camera.pos.GetPos();
     auto u = camera.u.GetPos();
     auto v = camera.v.GetPos();
@@ -86,9 +86,7 @@ void Scene::forwardRenderingPipeline(const Camera& camera) {
     auto b = camera.bottom;
     auto t = camera.top;
 
-    Debug::Assert(Math::IsNormalized(cameraForward), "CameraForward isn't normalized!");
-
-    for (int i = 0; i < meshCount; ++i) {
+     for (int i = 0; i < meshCount; ++i) {
         const auto& mesh = meshes[i];
 
         Debug::Assert(mesh.transformationTypes.size() == mesh.transformationIds.size(),
