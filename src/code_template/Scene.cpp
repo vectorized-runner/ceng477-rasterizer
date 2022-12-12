@@ -101,64 +101,65 @@ void Scene::forwardRenderingPipeline(const Camera& camera) {
                 rotations,
                 translations);
 
-        if (mesh.type == 0) {
-            // Wireframe
-            auto triangleCount = mesh.triangles.size();
-            for (int j = 0; j < triangleCount; ++j) {
-                const auto& tri = mesh.triangles[j];
+        auto triangleCount = mesh.triangles.size();
+        for (int j = 0; j < triangleCount; ++j) {
+            const auto& tri = mesh.triangles[j];
 
-                auto v0 = vertices[tri.vertexIds[0] - 1];
-                auto v1 = vertices[tri.vertexIds[1] - 1];
-                auto v2 = vertices[tri.vertexIds[2] - 1];
+            auto v0 = vertices[tri.vertexIds[0] - 1];
+            auto v1 = vertices[tri.vertexIds[1] - 1];
+            auto v2 = vertices[tri.vertexIds[2] - 1];
 
-                auto worldP0 = Math::TransformPoint(localToWorld, v0.GetPos());
-                auto worldP1 = Math::TransformPoint(localToWorld, v1.GetPos());
-                auto worldP2 = Math::TransformPoint(localToWorld, v2.GetPos());
+            auto worldP0 = Math::TransformPoint(localToWorld, v0.GetPos());
+            auto worldP1 = Math::TransformPoint(localToWorld, v1.GetPos());
+            auto worldP2 = Math::TransformPoint(localToWorld, v2.GetPos());
 
-                auto triNormal = Render::GetTriangleNormal(worldP0, worldP1, worldP2);
-                auto triCenter = (worldP0 + worldP1 + worldP2) / 3.0;
+            auto triNormal = Render::GetTriangleNormal(worldP0, worldP1, worldP2);
+            auto triCenter = (worldP0 + worldP1 + worldP2) / 3.0;
 
-                if (cullingEnabled && Render::IsBackfacingTriangle(triNormal, triCenter, cameraPos)) {
-                    continue;
-                }
+            if (cullingEnabled && Render::IsBackfacingTriangle(triNormal, triCenter, cameraPos)) {
+                continue;
+            }
 
-                auto color0 = colorsOfVertices[v0.colorId - 1].ToDouble3();
-                auto color1 = colorsOfVertices[v1.colorId - 1].ToDouble3();
-                auto color2 = colorsOfVertices[v2.colorId - 1].ToDouble3();
+            auto color0 = colorsOfVertices[v0.colorId - 1].ToDouble3();
+            auto color1 = colorsOfVertices[v1.colorId - 1].ToDouble3();
+            auto color2 = colorsOfVertices[v2.colorId - 1].ToDouble3();
 
-                auto viewportP0 = double2(0, 0);
-                auto viewportP1 = double2(0, 0);
-                auto viewportP2 = double2(0, 0);
+            auto viewportP0 = double2(0, 0);
+            auto viewportP1 = double2(0, 0);
+            auto viewportP2 = double2(0, 0);
 
-                if (camera.projectionType == 0) {
-                    // Ortho
-                    viewportP0 = Render::WorldToViewportOrtho(worldP0, cameraPos, u, v, w, r, l, t, b, f, n);
-                    viewportP1 = Render::WorldToViewportOrtho(worldP1, cameraPos, u, v, w, r, l, t, b, f, n);
-                    viewportP2 = Render::WorldToViewportOrtho(worldP2, cameraPos, u, v, w, r, l, t, b, f, n);
-                } else if (camera.projectionType == 1) {
-                    // Perspective
-                    viewportP0 = Render::WorldToViewportPerspective(worldP0, cameraPos, u, v, w, r, l, t, b, f, n);
-                    viewportP1 = Render::WorldToViewportPerspective(worldP1, cameraPos, u, v, w, r, l, t, b, f, n);
-                    viewportP2 = Render::WorldToViewportPerspective(worldP2, cameraPos, u, v, w, r, l, t, b, f, n);
-                } else {
-                    Debug::Log("Unexpected projection type.");
-                }
+            if (camera.projectionType == 0) {
+                // Ortho
+                viewportP0 = Render::WorldToViewportOrtho(worldP0, cameraPos, u, v, w, r, l, t, b, f, n);
+                viewportP1 = Render::WorldToViewportOrtho(worldP1, cameraPos, u, v, w, r, l, t, b, f, n);
+                viewportP2 = Render::WorldToViewportOrtho(worldP2, cameraPos, u, v, w, r, l, t, b, f, n);
+            } else if (camera.projectionType == 1) {
+                // Perspective
+                viewportP0 = Render::WorldToViewportPerspective(worldP0, cameraPos, u, v, w, r, l, t, b, f, n);
+                viewportP1 = Render::WorldToViewportPerspective(worldP1, cameraPos, u, v, w, r, l, t, b, f, n);
+                viewportP2 = Render::WorldToViewportPerspective(worldP2, cameraPos, u, v, w, r, l, t, b, f, n);
+            } else {
+                Debug::Log("Unexpected projection type.");
+            }
 
-                auto screenP0 = Render::ViewportToScreenPoint(viewportP0, resolution);
-                auto screenP1 = Render::ViewportToScreenPoint(viewportP1, resolution);
-                auto screenP2 = Render::ViewportToScreenPoint(viewportP2, resolution);
+            auto screenP0 = Render::ViewportToScreenPoint(viewportP0, resolution);
+            auto screenP1 = Render::ViewportToScreenPoint(viewportP1, resolution);
+            auto screenP2 = Render::ViewportToScreenPoint(viewportP2, resolution);
 
-                // TODO: Apply clipping
+            // TODO: Apply clipping
 
+            if(mesh.type == 0){
+                // Wireframe
                 Render::DrawLine(image, screenP0, screenP1, color0, color1, resolution);
                 Render::DrawLine(image, screenP1, screenP2, color1, color2, resolution);
                 Render::DrawLine(image, screenP2, screenP0, color2, color0, resolution);
             }
-        } else if (mesh.type == 1) {
-            // TODO: Solid mesh drawing
-            cout << "Solid mesh not implemented yet." << endl;
-        } else {
-            cout << "Error, Unexpected Mesh Type: " << mesh.type << endl;
+            else if(mesh.type == 1){
+                // Solid
+            }
+            else{
+                cout << "Error, Unexpected Mesh Type: " << mesh.type << endl;
+            }
         }
     }
 }
