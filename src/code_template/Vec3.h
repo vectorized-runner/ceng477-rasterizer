@@ -21,6 +21,12 @@ public:
     double3 GetPos() const{
         return double3(x, y, z);
     }
+
+    void SetPos(double3 value){
+        x = value.x;
+        y = value.y;
+        z = value.z;
+    }
 };
 
 #endif
