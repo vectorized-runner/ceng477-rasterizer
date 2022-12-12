@@ -224,15 +224,16 @@ namespace Rasterizer {
         static double4x4 RotateDegreesAroundAxis(double3 axis, double angle){
             auto rads = Math::Radians(angle);
             // Create uvw
-            auto u = Normalize(axis);
-            auto v = Normalize(double3(-u.y, u.x, 0));
+
+            auto v = Normalize(axis);
+            auto u = Normalize(double3(-v.y, v.x, 0));
             auto w = Normalize(Math::Cross(u, v));
             Debug::Assert(IsZero(Dot(u, v)), "uvw failed.");
             Debug::Assert(IsZero(Dot(u, w)), "uvw failed.");
 
             auto mInverse = double4x4(
                     double4(u.x, u.y, u.z, 0.0),
-                    double4(v.x, v.x, v.z, 0.0),
+                    double4(v.x, v.y, v.z, 0.0),
                     double4(w.x, w.y, w.z, 0.0),
                     double4(0.0, 0.0, 0.0, 1.0));
 
@@ -242,7 +243,7 @@ namespace Rasterizer {
                     double4(u.z, v.z, w.z, 0.0),
                     double4(0.0, 0.0, 0.0, 1.0));
 
-            return Mul(mInverse, Mul(RotationX(rads), m));
+            return Mul(mInverse, Mul(RotationY(rads), m));
         }
 
         static double Remap(double x, double oldMin, double oldMax, double newMin, double newMax){
