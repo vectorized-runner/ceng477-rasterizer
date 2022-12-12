@@ -104,8 +104,8 @@ namespace Rasterizer {
         // TODO: Consider doing with Matrix
         // TODO: Is clamping by casting the right way?
         static int2 ViewportToScreenPoint(double2 viewport, int2 res) {
-            Debug::Assert(abs(viewport.x) <= 1.0, "Viewport X error.");
-            Debug::Assert(abs(viewport.y) <= 1.0, "Viewport Y error.");
+            // Debug::Assert(abs(viewport.x) <= 1.0, "Viewport X error.");
+            // Debug::Assert(abs(viewport.y) <= 1.0, "Viewport Y error.");
 
             auto screenX = Math::Remap(viewport.x, -1.0, 1.0, -0.5, res.x - 0.5);
             auto screenY = Math::Remap(viewport.y, -1.0, 1.0, -0.5, res.y - 0.5);
