@@ -143,22 +143,7 @@ void Scene::forwardRenderingPipeline(Camera& camera) {
                 auto screenP1 = Render::ViewportToScreenPoint(viewportP1, resolution);
                 auto screenP2 = Render::ViewportToScreenPoint(viewportP2, resolution);
 
-                cout << "p0: " << screenP0.ToString() << endl;
-                cout << "p1: " << screenP1.ToString() << endl;
-                cout << "p2: " << screenP2.ToString() << endl;
-
                 // TODO: Apply clipping
-
-                // TODO: Remove this, not correct way to do it!
-                screenP0.x = Math::Clamp(screenP0.x, 0, resolution.x - 1);
-                screenP1.x = Math::Clamp(screenP1.x, 0, resolution.x - 1);
-                screenP2.x = Math::Clamp(screenP2.x, 0, resolution.x - 1);
-
-                screenP0.y = Math::Clamp(screenP0.y, 0, resolution.y - 1);
-                screenP1.y = Math::Clamp(screenP1.y, 0, resolution.y - 1);
-                screenP2.y = Math::Clamp(screenP2.y, 0, resolution.y - 1);
-
-                cout << "Draw one." << endl;
 
                 Render::DrawLine(image, screenP0, screenP1, color0, color1, resolution);
                 Render::DrawLine(image, screenP1, screenP2, color1, color2, resolution);
@@ -389,8 +374,6 @@ Scene::Scene(const char* xmlPath) {
 	Initializes image with background color
 */
 void Scene::initializeImage(const Camera& camera) {
-    cout << "Initialize Image" << endl;
-
     if (this->image.empty()) {
         for (int i = 0; i < camera.horRes; i++) {
             vector<Color> rowOfColors;
