@@ -93,7 +93,6 @@ void Scene::forwardRenderingPipeline(Camera& camera) {
 
     Debug::Assert(Math::IsNormalized(cameraForward), "CameraForward isn't normalized!");
 
-    // TODO: Don't forget about checking perspective/ortho
     for (int i = 0; i < meshCount; ++i) {
         const auto& mesh = meshes[i];
 
@@ -134,9 +133,25 @@ void Scene::forwardRenderingPipeline(Camera& camera) {
                 auto color1 = colorsOfVertices[v1.colorId - 1].ToDouble3();
                 auto color2 = colorsOfVertices[v2.colorId - 1].ToDouble3();
 
-                auto viewportP0 = Render::WorldToViewportPerspective(worldP0, cameraPos, u, v, w, r, l, t, b, f, n);
-                auto viewportP1 = Render::WorldToViewportPerspective(worldP1, cameraPos, u, v, w, r, l, t, b, f, n);
-                auto viewportP2 = Render::WorldToViewportPerspective(worldP2, cameraPos, u, v, w, r, l, t, b, f, n);
+                auto viewportP0 = double2(0, 0);
+                auto viewportP1 = double2(0, 0);
+                auto viewportP2 = double2(0, 0);
+
+                if(camera.projectionType == 0){
+                    // Ortho
+                    viewportP0 = Render::WorldToViewportOrtho(worldP0, cameraPos, u, v, w, r, l, t, b, f, n);
+                    viewportP1 = Render::WorldToViewportOrtho(worldP1, cameraPos, u, v, w, r, l, t, b, f, n);
+                    viewportP2 = Render::WorldToViewportOrtho(worldP2, cameraPos, u, v, w, r, l, t, b, f, n);
+                }
+                else if(camera.projectionType == 1){
+                    // Perspective
+                    viewportP0 = Render::WorldToViewportPerspective(worldP0, cameraPos, u, v, w, r, l, t, b, f, n);
+                    viewportP1 = Render::WorldToViewportPerspective(worldP1, cameraPos, u, v, w, r, l, t, b, f, n);
+                    viewportP2 = Render::WorldToViewportPerspective(worldP2, cameraPos, u, v, w, r, l, t, b, f, n);
+                }
+                else{
+                    Debug::Log("Unexpected projection type.");
+                }
 
                 auto screenP0 = Render::ViewportToScreenPoint(viewportP0, resolution);
                 auto screenP1 = Render::ViewportToScreenPoint(viewportP1, resolution);
