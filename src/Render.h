@@ -9,8 +9,6 @@
 #include "math/double4x4.h"
 #include "math/Math.h"
 #include "Debug.h"
-#include "triangle.h"
-#include "cam.h"
 
 using namespace std;
 
@@ -55,23 +53,6 @@ namespace Rasterizer {
                     }
                 }
             }
-        }
-
-        static void DrawTriangle(vector<vector<Color>>& output, triangle tri, cam cam, int2 resolution) {
-            auto viewportP0 = Render::WorldToViewportPerspective(tri.p0, cam.position, cam.u, cam.v, cam.w, cam.r,
-                                                                 cam.l, cam.t, cam.b, cam.f, cam.n);
-            auto viewportP1 = Render::WorldToViewportPerspective(tri.p1, cam.position, cam.u, cam.v, cam.w, cam.r,
-                                                                 cam.l, cam.t, cam.b, cam.f, cam.n);
-            auto viewportP2 = Render::WorldToViewportPerspective(tri.p2, cam.position, cam.u, cam.v, cam.w, cam.r,
-                                                                 cam.l, cam.t, cam.b, cam.f, cam.n);
-
-            auto screenP0 = Render::ViewportToScreenPoint(viewportP0, resolution);
-            auto screenP1 = Render::ViewportToScreenPoint(viewportP1, resolution);
-            auto screenP2 = Render::ViewportToScreenPoint(viewportP2, resolution);
-
-            Render::DrawLine(output, screenP0, screenP1, tri.c0, tri.c1, resolution);
-            Render::DrawLine(output, screenP1, screenP2, tri.c1, tri.c2, resolution);
-            Render::DrawLine(output, screenP0, screenP2, tri.c0, tri.c2, resolution);
         }
 
         static double3 GetTriangleNormal(double3 p0, double3 p1, double3 p2) {
