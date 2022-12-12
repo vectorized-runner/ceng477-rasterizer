@@ -223,8 +223,6 @@ namespace Rasterizer {
             auto v = Normalize(axis);
             auto u = Normalize(double3(-v.y, v.x, 0));
             auto w = Normalize(Math::Cross(u, v));
-            Debug::Assert(IsZero(Dot(u, v)), "uvw failed.");
-            Debug::Assert(IsZero(Dot(u, w)), "uvw failed.");
 
             auto mInverse = double4x4(
                     double4(u.x, u.y, u.z, 0.0),
