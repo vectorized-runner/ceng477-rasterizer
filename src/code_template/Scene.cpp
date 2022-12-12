@@ -78,14 +78,6 @@ void Scene::forwardRenderingPipeline(Camera& camera) {
 //    Render::DrawTriangle(image, mytri2, mycam, resolution);
 //    return;
 
-
-    // TODO: Remvoe these once we're done
-    camera.pos = Vec3(0, 0, 0, -1);
-    camera.u = Vec3(1, 0, 0, -1);
-    camera.v = Vec3(0, 1, 0, -1);
-    camera.w = Vec3(0, 0, 1, -1);
-    camera.pos.SetPos(camera.pos.GetPos() + double3(20, -10, 10));
-
     auto meshCount = meshes.size();
     auto cameraForward = camera.w.GetPos();
     auto cameraPos = camera.pos.GetPos();
