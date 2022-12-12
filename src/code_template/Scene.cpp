@@ -1,6 +1,7 @@
 #pragma clang diagnostic push
 #pragma ide diagnostic ignored "cert-err34-c"
 #pragma ide diagnostic ignored "readability-convert-member-functions-to-static"
+
 #include <iostream>
 #include <cstdlib>
 #include <cstring>
@@ -31,8 +32,7 @@ using namespace Rasterizer;
 	Transformations, clipping, culling, rasterization are done here.
 	You may define helper functions.
 */
-void Scene::forwardRenderingPipeline(Camera& camera)
-{
+void Scene::forwardRenderingPipeline(Camera& camera) {
     cout << "left " << camera.left << endl;
 
 
@@ -47,6 +47,10 @@ void Scene::forwardRenderingPipeline(Camera& camera)
 //    mytri1.c1 = double3(0, 255, 0);
 //    mytri1.p2 = double3(0.0, 1.0, 0.0);
 //    mytri1.c2 = double3(0, 0, 255);
+//
+//    mytri1.p0 = Math::ScalePoint(double3(2.0, 2.0, 2.0), mytri1.p0);
+//    mytri1.p1 = Math::ScalePoint(double3(2.0, 2.0, 2.0), mytri1.p1);
+//    mytri1.p2 = Math::ScalePoint(double3(2.0, 2.0, 2.0), mytri1.p2);
 //
 //    auto mytri2 = triangle();
 //    mytri2.p0 = double3(-0.5, 0.0, 0.0);
@@ -96,7 +100,8 @@ void Scene::forwardRenderingPipeline(Camera& camera)
     for (int i = 0; i < meshCount; ++i) {
         const auto& mesh = meshes[i];
 
-        Debug::Assert(mesh.transformationTypes.size() == mesh.transformationIds.size(), "Transformation size doesn't match id size.");
+        Debug::Assert(mesh.transformationTypes.size() == mesh.transformationIds.size(),
+                      "Transformation size doesn't match id size.");
         Debug::Assert(mesh.transformationTypes.size() > 0, "No Transformation found.");
         Debug::Assert(mesh.transformationTypes.size() <= 3, "There are more than 3 transformations, what to do?");
 
@@ -107,11 +112,12 @@ void Scene::forwardRenderingPipeline(Camera& camera)
                 rotations,
                 translations);
 
-        if(mesh.type == 0){
+        if (mesh.type == 0) {
             // Wireframe
             auto triangleCount = mesh.triangles.size();
             for (int j = 0; j < triangleCount; ++j) {
                 const auto& tri = mesh.triangles[j];
+
                 auto v0 = vertices[tri.vertexIds[0] - 1];
                 auto v1 = vertices[tri.vertexIds[1] - 1];
                 auto v2 = vertices[tri.vertexIds[2] - 1];
@@ -124,10 +130,10 @@ void Scene::forwardRenderingPipeline(Camera& camera)
                 auto normal = Render::GetTriangleNormal(worldP0, worldP1, worldP2);
 
                 // Culling
-                 if(cullingEnabled && Render::ShouldTriangleBeCulled(normal, cameraForward)){
-                     Debug::Log("Culling this Triangle.");
-                     continue;
-                 }
+                if (cullingEnabled && Render::ShouldTriangleBeCulled(normal, cameraForward)) {
+                    Debug::Log("Culling this Triangle.");
+                    continue;
+                }
 
                 auto color0 = colorsOfVertices[v0.colorId - 1].ToDouble3();
                 auto color1 = colorsOfVertices[v1.colorId - 1].ToDouble3();
@@ -148,12 +154,12 @@ void Scene::forwardRenderingPipeline(Camera& camera)
                 // TODO: Apply clipping
 
                 // TODO: Remove this, not correct way to do it!
-                 screenP0.x = Math::Clamp(screenP0.x, 0, resX - 1);
-                 screenP0.y = Math::Clamp(screenP0.y, 0, resY - 1);
-                 screenP1.x = Math::Clamp(screenP1.x, 0, resX - 1);
-                 screenP1.y = Math::Clamp(screenP1.y, 0, resY - 1);
-                 screenP2.x = Math::Clamp(screenP2.x, 0, resX - 1);
-                 screenP2.y = Math::Clamp(screenP2.y, 0, resY - 1);
+                screenP0.x = Math::Clamp(screenP0.x, 0, resX - 1);
+                screenP0.y = Math::Clamp(screenP0.y, 0, resY - 1);
+                screenP1.x = Math::Clamp(screenP1.x, 0, resX - 1);
+                screenP1.y = Math::Clamp(screenP1.y, 0, resY - 1);
+                screenP2.x = Math::Clamp(screenP2.x, 0, resX - 1);
+                screenP2.y = Math::Clamp(screenP2.y, 0, resY - 1);
 
                 cout << "Draw one." << endl;
 
@@ -161,12 +167,10 @@ void Scene::forwardRenderingPipeline(Camera& camera)
                 Render::DrawLine(image, screenP1, screenP2, color1, color2);
                 Render::DrawLine(image, screenP2, screenP0, color2, color0);
             }
-        }
-        else if(mesh.type == 1){
+        } else if (mesh.type == 1) {
             // TODO:
             cout << "Solid mesh not implemented yet." << endl;
-        }
-        else{
+        } else {
             cout << "Error, Unexpected Mesh Type: " << mesh.type << endl;
         }
     }
