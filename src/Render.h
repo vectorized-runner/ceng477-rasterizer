@@ -190,7 +190,7 @@ namespace Rasterizer {
             return Math::Dot(triangleNormal, v) > 0;
         }
 
-        static void PlotLow(vector<vector<Color>>& output, double3 color0, double3 color1, int x0, int y0, int x1, int y1, int2 resolution) {
+        static void DrawLineLow(vector<vector<Color>>& output, double3 color0, double3 color1, int x0, int y0, int x1, int y1, int2 resolution) {
             auto dx = x1 - x0;
             auto dy = y1 - y0;
             auto yi = 1;
@@ -217,7 +217,7 @@ namespace Rasterizer {
             }
         }
 
-        static void PlotHigh(vector<vector<Color>>& output, double3 color0, double3 color1, int x0, int y0, int x1, int y1, int2 resolution) {
+        static void DrawLineHigh(vector<vector<Color>>& output, double3 color0, double3 color1, int x0, int y0, int x1, int y1, int2 resolution) {
             auto dx = x1 - x0;
             auto dy = y1 - y0;
             auto xi = 1;
@@ -253,15 +253,15 @@ namespace Rasterizer {
             auto y1 = p1.y;
             if (abs(y1 - y0) < abs(x1 - x0)) {
                 if (x0 > x1) {
-                    PlotLow(output, color1, color0, x1, y1, x0, y0, resolution);
+                    DrawLineLow(output, color1, color0, x1, y1, x0, y0, resolution);
                 } else {
-                    PlotLow(output, color0, color1, x0, y0, x1, y1, resolution);
+                    DrawLineLow(output, color0, color1, x0, y0, x1, y1, resolution);
                 }
             } else {
                 if (y0 > y1) {
-                    PlotHigh(output, color1, color0, x1, y1, x0, y0, resolution);
+                    DrawLineHigh(output, color1, color0, x1, y1, x0, y0, resolution);
                 } else {
-                    PlotHigh(output, color0, color1, x0, y0, x1, y1, resolution);
+                    DrawLineHigh(output, color0, color1, x0, y0, x1, y1, resolution);
                 }
             }
         }
