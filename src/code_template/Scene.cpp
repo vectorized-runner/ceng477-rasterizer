@@ -118,9 +118,7 @@ void Scene::forwardRenderingPipeline(const Camera& camera) {
                 auto worldP2 = Math::TransformPoint(localToWorld, v2.GetPos());
                 auto normal = Render::GetTriangleNormal(worldP0, worldP1, worldP2);
 
-                // Culling
                 if (cullingEnabled && Render::ShouldTriangleBeCulled(normal, cameraForward)) {
-                    Debug::Log("Culling this Triangle.");
                     continue;
                 }
 
