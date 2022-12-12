@@ -123,12 +123,10 @@ void Scene::forwardRenderingPipeline(Camera& camera) {
                 auto v0 = vertices[tri.vertexIds[0] - 1];
                 auto v1 = vertices[tri.vertexIds[1] - 1];
                 auto v2 = vertices[tri.vertexIds[2] - 1];
-                auto localP0 = double4(v0.GetPos(), 1);
-                auto localP1 = double4(v1.GetPos(), 1);
-                auto localP2 = double4(v2.GetPos(), 1);
-                auto worldP0 = Math::Mul(localToWorld, localP0).xyz();
-                auto worldP1 = Math::Mul(localToWorld, localP1).xyz();
-                auto worldP2 = Math::Mul(localToWorld, localP2).xyz();
+
+                auto worldP0 = Math::TransformPoint(localToWorld, v0.GetPos());
+                auto worldP1 = Math::TransformPoint(localToWorld, v1.GetPos());
+                auto worldP2 = Math::TransformPoint(localToWorld, v2.GetPos());
                 auto normal = Render::GetTriangleNormal(worldP0, worldP1, worldP2);
 
                 // Culling
