@@ -39,13 +39,9 @@ namespace Rasterizer {
                     auto d20 = (float)Math::Dot(v2, v0);
                     auto d21 = (float)Math::Dot(v2, v1);
                     auto denom = d00 * d11 - d01 * d01;
-                    auto v = (d11 * d20 - d01 * d21) / denom;
-                    auto w = (d00 * d21 - d01 * d20) / denom;
-                    auto u = 1.0f - v - w;
-
-                    auto alpha = u;
-                    auto beta = v;
-                    auto gamma = w;
+                    auto beta = (d11 * d20 - d01 * d21) / denom;
+                    auto gamma = (d00 * d21 - d01 * d20) / denom;
+                    auto alpha = 1.0f - beta - gamma;
 
                     if(alpha >= 0 && beta >= 0 && gamma >= 0){
                         auto color = alpha * color0 + beta * color1 + gamma * color2;
