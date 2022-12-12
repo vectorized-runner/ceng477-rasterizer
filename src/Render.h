@@ -31,19 +31,32 @@ namespace Rasterizer {
             auto maxY = Math::Max(screen0.y, Math::Max(screen1.y, screen2.y));
 
             for (int y = minY; y < maxY; ++y) {
-                for (int x = maxX; x < maxX; ++x) {
-                    auto point = int2(x, y);
-                    auto a0 = TriangleArea(point.ToDouble2(), screen1.ToDouble2(), screen2.ToDouble2());
-                    auto a1 = TriangleArea(point.ToDouble2(), screen0.ToDouble2(), screen2.ToDouble2());
-                    auto a2 = TriangleArea(point.ToDouble2(), screen0.ToDouble2(), screen1.ToDouble2());
-                    auto a = a0 + a1 + a2;
-                    auto alpha = a0 / a;
-                    auto beta = a1 / a;
-                    auto gamma = a2 / a;
+                for (int x = minX; x < maxX; ++x) {
+                    auto p = int2(x, y);
+                    // TODO: Cleanup
+                    auto a = screen0;
+                    auto b = screen1;
+                    auto c = screen2;
+                    auto v0 = b - a;
+                    auto v1 = c - a;
+                    auto v2 = p - a;
+                    auto d00 = (float)Math::Dot(v0, v0);
+                    auto d01 = (float)Math::Dot(v0, v1);
+                    auto d11 = (float)Math::Dot(v1, v1);
+                    auto d20 = (float)Math::Dot(v2, v0);
+                    auto d21 = (float)Math::Dot(v2, v1);
+                    auto denom = d00 * d11 - d01 * d01;
+                    auto v = (d11 * d20 - d01 * d21) / denom;
+                    auto w = (d00 * d21 - d01 * d20) / denom;
+                    auto u = 1.0f - v - w;
+
+                    auto alpha = u;
+                    auto beta = v;
+                    auto gamma = w;
 
                     if(alpha >= 0 && beta >= 0 && gamma >= 0){
-                        auto c = alpha * color0 + beta * color1 + gamma * color2;
-                        DrawColor(output, int2(x, y), c, resolution);
+                        auto color = alpha * color0 + beta * color1 + gamma * color2;
+                        DrawColor(output, int2(x, y), color, resolution);
                     }
                 }
             }
