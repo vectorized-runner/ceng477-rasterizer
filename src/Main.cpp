@@ -71,7 +71,7 @@ void TestWorldToCamera(){
 
     auto cameraPos = double3(0, 0, 0);
 
-    auto worldToCam = Render::GetWorldToCameraMatrix(cameraPos, u, v, w);
+    auto worldToCam = Render::GetWorldToViewMatrix(cameraPos, u, v, w);
 
     auto cam = Math::Mul(worldToCam, double4(pos, 1));
     cout << cam.xyz().ToString() << endl;

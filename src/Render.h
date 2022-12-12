@@ -57,7 +57,7 @@ namespace Rasterizer {
                     double4(0, 0, (-2 * f * n) / (f - n), 0));
         }
 
-        static double4x4 GetWorldToCameraMatrix(double3 pos, double3 u, double3 v, double3 w) {
+        static double4x4 GetWorldToViewMatrix(double3 pos, double3 u, double3 v, double3 w) {
             auto translation = Math::TranslationMatrix(-pos);
             auto rotation = double4x4(
                     double4(u.x, v.x, w.x, 0),
@@ -71,19 +71,17 @@ namespace Rasterizer {
         static double2 WorldToViewportOrtho(double3 worldPosition, double3 cameraPos, double3 u, double3 v, double3 w,
                                             double r, double l, double t, double b, double f, double n) {
             auto ortho = GetOrthographic(r, l, t, b, f, n);
-            auto cam = GetWorldToCameraMatrix(cameraPos, u, v, w);
+            auto cam = GetWorldToViewMatrix(cameraPos, u, v, w);
             auto vec = Math::Mul(ortho, Math::Mul(cam, double4(worldPosition, 1.0)));
 
             return double2(vec.x, vec.y);
         }
 
-        // No way this works
-        static double2
-        WorldToViewportPerspective(double3 worldPosition, double3 cameraPos, double3 u, double3 v, double3 w,
+        static double2 WorldToViewportPerspective(double3 worldPosition, double3 cameraPos, double3 u, double3 v, double3 w,
                                    double r, double l, double t, double b, double f, double n) {
 
             auto per = GetPerspective(r, l, t, b, f, n);
-            auto cam = GetWorldToCameraMatrix(cameraPos, u, v, w);
+            auto cam = GetWorldToViewMatrix(cameraPos, u, v, w);
             auto vec = Math::Mul(per, Math::Mul(cam, double4(worldPosition, 1.0)));
             // Perspective divide
             vec = vec / vec.w;
