@@ -419,8 +419,6 @@ int Scene::makeBetweenZeroAnd255(double value) {
 	Writes contents of image (Color**) into a PPM file.
 */
 void Scene::writeImageToPPMFile(const Camera& camera) {
-    cout << "Write PPM begin" << endl;
-
     ofstream fout;
 
     cout << "Output File Name: " << camera.outputFileName.c_str() << endl;

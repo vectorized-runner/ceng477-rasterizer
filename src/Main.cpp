@@ -125,8 +125,6 @@ int main(int argc, char *argv[])
 
         for (int i = 0; i < scene->cameras.size(); i++)
         {
-            cout << "Running for Camera Id: " << i << endl;
-
             // initialize image with basic values
             scene->initializeImage(scene->cameras[i]);
 
