@@ -156,6 +156,7 @@ void Scene::forwardRenderingPipeline(const Camera& camera) {
             }
             else if(mesh.type == 1){
                 // Solid
+                Render::DrawTriangle(image, screenP0, screenP1, screenP2, color0, color1, color2, resolution);
             }
             else{
                 cout << "Error, Unexpected Mesh Type: " << mesh.type << endl;
