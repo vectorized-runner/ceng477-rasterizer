@@ -2,6 +2,8 @@
 #ifndef CENG477_RASTERIZER_INT2_H
 #define CENG477_RASTERIZER_INT2_H
 
+#include "double2.h"
+
 namespace Rasterizer {
 
     struct int2 {
@@ -22,6 +24,10 @@ namespace Rasterizer {
 
         string ToString() const {
             return "(" + to_string(x) + ", " + to_string(y) + ")";
+        }
+
+        double2 ToDouble2(){
+           return double2(x, y);
         }
     };
 

@@ -18,6 +18,36 @@ namespace Rasterizer {
 
     struct Render {
 
+        static double TriangleArea(double2 p1, double2 p2, double2 p3){
+            return 0.5 * (p1.x * (p2.y - p3.y) + p2.x * (p3.y - p1.y) + p3.x * (p1.y - p2.y));
+        }
+
+        static void DrawTriangle(vector<vector<Color>>& output, int2 screen0, int2 screen1, int2 screen2, double3 color0, double3 color1, double3 color2, int2 resolution){
+
+            auto minX = Math::Min(screen0.x, Math::Min(screen1.x, screen2.x));
+            auto maxX = Math::Max(screen0.x, Math::Max(screen1.x, screen2.x));
+            auto minY = Math::Min(screen0.y, Math::Min(screen1.y, screen2.y));
+            auto maxY = Math::Max(screen0.y, Math::Max(screen1.y, screen2.y));
+
+            for (int y = minY; y < maxY; ++y) {
+                for (int x = maxX; x < maxX; ++x) {
+                    auto point = int2(x, y);
+                    auto a0 = TriangleArea(point.ToDouble2(), screen1.ToDouble2(), screen2.ToDouble2());
+                    auto a1 = TriangleArea(point.ToDouble2(), screen0.ToDouble2(), screen2.ToDouble2());
+                    auto a2 = TriangleArea(point.ToDouble2(), screen0.ToDouble2(), screen1.ToDouble2());
+                    auto a = a0 + a1 + a2;
+                    auto alpha = a0 / a;
+                    auto beta = a1 / a;
+                    auto gamma = a2 / a;
+
+                    if(alpha >= 0 && beta >= 0 && gamma >= 0){
+                        auto c = alpha * color0 + beta * color1 + gamma * color2;
+                        DrawColor(output, int2(x, y), c, resolution);
+                    }
+                }
+            }
+        }
+
         static void DrawTriangle(vector<vector<Color>>& output, triangle tri, cam cam, int2 resolution) {
             auto viewportP0 = Render::WorldToViewportPerspective(tri.p0, cam.position, cam.u, cam.v, cam.w, cam.r,
                                                                  cam.l, cam.t, cam.b, cam.f, cam.n);
