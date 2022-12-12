@@ -87,7 +87,7 @@ namespace Rasterizer {
             vec = vec / vec.w;
 
             // I've added extra negative sign, doesn't work without it
-            return double2(-vec.x, -vec.y);
+            return double2(vec.x, vec.y);
         }
 
         // TODO: Consider doing with Matrix
@@ -145,8 +145,9 @@ namespace Rasterizer {
             return result;
         }
 
-        static bool ShouldTriangleBeCulled(double3 triangleNormal, double3 cameraForward) {
-            return Math::Dot(triangleNormal, cameraForward) < 0;
+        static bool IsBackfacingTriangle(double3 triangleNormal, double3 triangleCenter, double3 cameraPosition) {
+            auto v = triangleCenter - cameraPosition;
+            return Math::Dot(triangleNormal, v) > 0;
         }
 
         static void PlotLow(vector<vector<Color>>& output, double3 color0, double3 color1, int x0, int y0, int x1, int y1, int2 resolution) {

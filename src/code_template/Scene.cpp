@@ -116,9 +116,11 @@ void Scene::forwardRenderingPipeline(const Camera& camera) {
                 auto worldP0 = Math::TransformPoint(localToWorld, v0.GetPos());
                 auto worldP1 = Math::TransformPoint(localToWorld, v1.GetPos());
                 auto worldP2 = Math::TransformPoint(localToWorld, v2.GetPos());
-                auto normal = Render::GetTriangleNormal(worldP0, worldP1, worldP2);
 
-                if (cullingEnabled && Render::ShouldTriangleBeCulled(normal, cameraForward)) {
+                auto triNormal = Render::GetTriangleNormal(worldP0, worldP1, worldP2);
+                auto triCenter = (worldP0 + worldP1 + worldP2) / 3.0;
+
+                if (cullingEnabled && Render::IsBackfacingTriangle(triNormal, triCenter, cameraPos)) {
                     continue;
                 }
 
