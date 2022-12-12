@@ -35,50 +35,46 @@ using namespace Rasterizer;
 void Scene::forwardRenderingPipeline(Camera& camera) {
     cout << "left " << camera.left << endl;
 
-
-    auto resX = camera.horRes;
-    auto resY = camera.verRes;
+    auto resolution = int2(camera.horRes, camera.verRes);
 
     // This is test drawing method
-//    auto mytri1 = triangle();
-//    mytri1.p0 = double3(-0.5, 0.0, 0.0);
-//    mytri1.c0 = double3(255, 0, 0);
-//    mytri1.p1 = double3(0.5, 0.0, 0.0);
-//    mytri1.c1 = double3(0, 255, 0);
-//    mytri1.p2 = double3(0.0, 1.0, 0.0);
-//    mytri1.c2 = double3(0, 0, 255);
-//
-//    mytri1.p0 = Math::ScalePoint(double3(2.0, 2.0, 2.0), mytri1.p0);
-//    mytri1.p1 = Math::ScalePoint(double3(2.0, 2.0, 2.0), mytri1.p1);
-//    mytri1.p2 = Math::ScalePoint(double3(2.0, 2.0, 2.0), mytri1.p2);
-//
-//    auto mytri2 = triangle();
-//    mytri2.p0 = double3(-0.5, 0.0, 0.0);
-//    mytri2.c0 = double3(255, 0, 0);
-//    mytri2.p1 = double3(0.5, 0.0, 0.0);
-//    mytri2.c1 = double3(0, 255, 0);
-//    mytri2.p2 = double3(0.0, -1.0, 0.0);
-//    mytri2.c2 = double3(255, 255, 0);
-//
-//    auto mycam = cam();
-//    mycam.u = double3(1, 0, 0);
-//    mycam.v = double3(0, 1, 0);
-//    mycam.w = double3(0, 0, 1);
-//    mycam.position = double3(0, 0, -1);
-//    mycam.n = 1;
-//    mycam.f = 10;
-//    mycam.t = 2;
-//    mycam.b = -2;
-//    mycam.l = -2;
-//    mycam.r = 2;
-//
-//    Render::DrawTriangle(image, mytri1, mycam, resX, resY);
-//    Render::DrawTriangle(image, mytri2, mycam, resX, resY);
-//    return;
+    auto mytri1 = triangle();
+    mytri1.p0 = double3(-0.5, 0.0, 0.0);
+    mytri1.c0 = double3(255, 0, 0);
+    mytri1.p1 = double3(0.5, 0.0, 0.0);
+    mytri1.c1 = double3(0, 255, 0);
+    mytri1.p2 = double3(0.0, 1.0, 0.0);
+    mytri1.c2 = double3(0, 0, 255);
 
-    camera.pos = Vec3(0, 0, -60, -1);
-    Render::DrawTriangle(image, mytri1, mycam, int2(resX, resY));
-    Render::DrawTriangle(image, mytri2, mycam, int2(resX, resY));
+    mytri1.p0 = Math::ScalePoint(double3(2.0, 2.0, 2.0), mytri1.p0);
+    mytri1.p1 = Math::ScalePoint(double3(2.0, 2.0, 2.0), mytri1.p1);
+    mytri1.p2 = Math::ScalePoint(double3(2.0, 2.0, 2.0), mytri1.p2);
+
+    auto mytri2 = triangle();
+    mytri2.p0 = double3(-0.5, 0.0, 0.0);
+    mytri2.c0 = double3(255, 0, 0);
+    mytri2.p1 = double3(0.5, 0.0, 0.0);
+    mytri2.c1 = double3(0, 255, 0);
+    mytri2.p2 = double3(0.0, -1.0, 0.0);
+    mytri2.c2 = double3(255, 255, 0);
+
+    auto mycam = cam();
+    mycam.u = double3(1, 0, 0);
+    mycam.v = double3(0, 1, 0);
+    mycam.w = double3(0, 0, 1);
+    mycam.position = double3(0, 0, -1);
+    mycam.n = 1;
+    mycam.f = 10;
+    mycam.t = 2;
+    mycam.b = -2;
+    mycam.l = -2;
+    mycam.r = 2;
+
+    Render::DrawTriangle(image, mytri1, mycam, resolution);
+    Render::DrawTriangle(image, mytri2, mycam, resolution);
+    return;
+
+    camera.pos = Vec3(0, 0, 0, -1);
     camera.u = Vec3(1, 0, 0, -1);
     camera.v = Vec3(0, 1, 0, -1);
     camera.w = Vec3(0, 0, 1, -1);
@@ -143,9 +139,9 @@ void Scene::forwardRenderingPipeline(Camera& camera) {
                 auto viewportP1 = Render::WorldToViewportPerspective(worldP1, cameraPos, u, v, w, r, l, t, b, f, n);
                 auto viewportP2 = Render::WorldToViewportPerspective(worldP2, cameraPos, u, v, w, r, l, t, b, f, n);
 
-                auto screenP0 = Render::ViewportToScreenPoint(viewportP0, resX, resY);
-                auto screenP1 = Render::ViewportToScreenPoint(viewportP1, resX, resY);
-                auto screenP2 = Render::ViewportToScreenPoint(viewportP2, resX, resY);
+                auto screenP0 = Render::ViewportToScreenPoint(viewportP0, resolution);
+                auto screenP1 = Render::ViewportToScreenPoint(viewportP1, resolution);
+                auto screenP2 = Render::ViewportToScreenPoint(viewportP2, resolution);
 
                 cout << "p0: " << screenP0.ToString() << endl;
                 cout << "p1: " << screenP1.ToString() << endl;
@@ -154,18 +150,19 @@ void Scene::forwardRenderingPipeline(Camera& camera) {
                 // TODO: Apply clipping
 
                 // TODO: Remove this, not correct way to do it!
-                screenP0.x = Math::Clamp(screenP0.x, 0, resX - 1);
-                screenP0.y = Math::Clamp(screenP0.y, 0, resY - 1);
-                screenP1.x = Math::Clamp(screenP1.x, 0, resX - 1);
-                screenP1.y = Math::Clamp(screenP1.y, 0, resY - 1);
-                screenP2.x = Math::Clamp(screenP2.x, 0, resX - 1);
-                screenP2.y = Math::Clamp(screenP2.y, 0, resY - 1);
+                screenP0.x = Math::Clamp(screenP0.x, 0, resolution.x - 1);
+                screenP1.x = Math::Clamp(screenP1.x, 0, resolution.x - 1);
+                screenP2.x = Math::Clamp(screenP2.x, 0, resolution.x - 1);
+
+                screenP0.y = Math::Clamp(screenP0.y, 0, resolution.y - 1);
+                screenP1.y = Math::Clamp(screenP1.y, 0, resolution.y - 1);
+                screenP2.y = Math::Clamp(screenP2.y, 0, resolution.y - 1);
 
                 cout << "Draw one." << endl;
 
-                Render::DrawLine(image, screenP0, screenP1, color0, color1, int2(resX, resY));
-                Render::DrawLine(image, screenP1, screenP2, color1, color2, int2(resX, resY));
-                Render::DrawLine(image, screenP2, screenP0, color2, color0, int2(resX, resY));
+                Render::DrawLine(image, screenP0, screenP1, color0, color1, resolution);
+                Render::DrawLine(image, screenP1, screenP2, color1, color2, resolution);
+                Render::DrawLine(image, screenP2, screenP0, color2, color0, resolution);
             }
         } else if (mesh.type == 1) {
             // TODO:

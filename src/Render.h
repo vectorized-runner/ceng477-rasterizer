@@ -26,9 +26,9 @@ namespace Rasterizer {
             auto viewportP2 = Render::WorldToViewportPerspective(tri.p2, cam.position, cam.u, cam.v, cam.w, cam.r,
                                                                  cam.l, cam.t, cam.b, cam.f, cam.n);
 
-            auto screenP0 = Render::ViewportToScreenPoint(viewportP0, resolution.x, resolution.y);
-            auto screenP1 = Render::ViewportToScreenPoint(viewportP1, resolution.x, resolution.y);
-            auto screenP2 = Render::ViewportToScreenPoint(viewportP2, resolution.x, resolution.y);
+            auto screenP0 = Render::ViewportToScreenPoint(viewportP0, resolution);
+            auto screenP1 = Render::ViewportToScreenPoint(viewportP1, resolution);
+            auto screenP2 = Render::ViewportToScreenPoint(viewportP2, resolution);
 
             Render::DrawLine(output, screenP0, screenP1, tri.c0, tri.c1, resolution);
             Render::DrawLine(output, screenP1, screenP2, tri.c1, tri.c2, resolution);
@@ -103,12 +103,12 @@ namespace Rasterizer {
 
         // TODO: Consider doing with Matrix
         // TODO: Is clamping by casting the right way?
-        static int2 ViewportToScreenPoint(double2 viewport, int resX, int resY) {
+        static int2 ViewportToScreenPoint(double2 viewport, int2 res) {
             Debug::Assert(abs(viewport.x) <= 1.0, "Viewport X error.");
             Debug::Assert(abs(viewport.y) <= 1.0, "Viewport Y error.");
 
-            auto screenX = Math::Remap(viewport.x, -1.0, 1.0, -0.5, resX - 0.5);
-            auto screenY = Math::Remap(viewport.y, -1.0, 1.0, -0.5, resY - 0.5);
+            auto screenX = Math::Remap(viewport.x, -1.0, 1.0, -0.5, res.x - 0.5);
+            auto screenY = Math::Remap(viewport.y, -1.0, 1.0, -0.5, res.y - 0.5);
 
             // TODO: Is this the right clamping method?
             return int2((int)screenX, (int)screenY);
