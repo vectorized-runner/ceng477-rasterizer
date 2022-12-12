@@ -114,7 +114,6 @@ namespace Rasterizer {
             return int2((int)screenX, (int)screenY);
         }
 
-        // TODO: These are incorrect. We will to origin then scale it etc. We're on the right track.
         static double4x4 GetLocalToWorldMatrix(
                 const vector<int>& transformationIds,
                 const vector<char>& transformationTypes,
@@ -132,9 +131,7 @@ namespace Rasterizer {
                 switch (type) {
                     case 'r': {
                         auto item = rotations[id - 1];
-                        // TODO: I don't trust this works
-                        auto rotationMatrix = double4x4::identity();
-                        rotationMatrix = Math::RotateDegreesAroundAxis(double3(item.ux, item.uy, item.uz), item.angle);
+                        auto rotationMatrix = Math::RotateDegreesAroundAxis(double3(item.ux, item.uy, item.uz), item.angle);
                         result = Math::Mul(rotationMatrix, result);
                         break;
                     }
