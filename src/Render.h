@@ -166,10 +166,19 @@ namespace Rasterizer {
 
                 switch (type) {
                     case 'r': {
-                        // TODO: This is the only thing left. Leave it alone.
                         auto item = rotations[id - 1];
-                        // auto rotationMatrix = Math::RotateDegreesAroundAxis(double3(item.ux, item.uy, item.uz), item.angle);
-                        // result = Math::Mul(rotationMatrix, result);
+
+                        // Rotate around y, as asked
+                        result = Math::Mul(Math::RotationY(Math::Radians(item.angle)), result);
+
+                        auto m1 = Math::RotationY(Math::Radians(item.angle));
+                        auto m2 = Math::RotateDegreesAroundAxis(double3(item.ux, item.uy, item.uz), item.angle);
+
+                        cout << "m1" << endl;
+                        m1.print();
+
+                        cout << "m2" << endl;
+                        m2.print();
                         break;
                     }
                     case 't': {
