@@ -29,6 +29,10 @@ namespace Rasterizer {
         double2 ToDouble2(){
            return double2(x, y);
         }
+
+        int2 operator-(int2 other) const {
+            return int2(x - other.x, y - other.y);
+        }
     };
 
 } // Rasterizer

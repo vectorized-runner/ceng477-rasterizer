@@ -4,6 +4,7 @@
 
 #include "double4x4.h"
 #include "double3.h"
+#include "int2.h"
 #include "../Debug.h"
 #include <cmath>
 #include <limits>
@@ -22,6 +23,10 @@ namespace Rasterizer {
         __attribute__((always_inline))
         static double Dot(double3 x, double3 y) {
             return x.x * y.x + x.y * y.y + x.z * y.z;
+        }
+
+        static int Dot(int2 x, int2 y) {
+            return x.x * y.x + x.y * y.y;
         }
 
         __attribute__((always_inline))
