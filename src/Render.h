@@ -135,7 +135,8 @@ namespace Rasterizer {
                         // TODO: I don't trust this works
                         auto rotationMatrix = double4x4::identity();
                         // rotationMatrix = Math::RotateDegreesAroundAxis(double3(item.ux, item.uy, item.uz), item.angle);
-                        result = Math::Mul(rotationMatrix, result);
+                        auto after = Math::Mul(rotationMatrix, result);
+                        Debug::Assert(Math::AreEqual(after, result), "NotEqualMatrix");
                         break;
                     }
                     case 't': {
