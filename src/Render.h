@@ -68,14 +68,6 @@ namespace Rasterizer {
             return Math::Mul(rotation, translation);
         }
 
-        static double4x4 GetVP(int resX, int resY) {
-            return double4x4(
-                    double4(resX / 2.0, 0.0, 0.0, 0.0),
-                    double4(0.0, resY / 2.0, 0.0, 0.0),
-                    double4(0.0, 0.0, 0.5, 0.0),
-                    double4((resX - 1) / 2.0, (resY - 1) / 2.0, 0.5, 0.0)
-            );
-        }
 
         static double2 WorldToViewportOrtho(double3 worldPosition, double3 cameraPos, double3 u, double3 v, double3 w,
                                             double r, double l, double t, double b, double f, double n) {
