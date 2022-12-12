@@ -32,12 +32,7 @@ using namespace Rasterizer;
 	Transformations, clipping, culling, rasterization are done here.
 	You may define helper functions.
 */
-void Scene::forwardRenderingPipeline(Camera& camera) {
-
-    // TODO: Why is left negative?
-
-
-    cout << camera.pos.GetPos().ToString() << endl;
+void Scene::forwardRenderingPipeline(const Camera& camera) {
 
     auto resolution = int2(camera.horRes, camera.verRes);
 
@@ -164,7 +159,7 @@ void Scene::forwardRenderingPipeline(Camera& camera) {
                 Render::DrawLine(image, screenP2, screenP0, color2, color0, resolution);
             }
         } else if (mesh.type == 1) {
-            // TODO:
+            // TODO: Solid mesh drawing
             cout << "Solid mesh not implemented yet." << endl;
         } else {
             cout << "Error, Unexpected Mesh Type: " << mesh.type << endl;
