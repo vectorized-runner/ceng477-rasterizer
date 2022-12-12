@@ -176,6 +176,11 @@ namespace Rasterizer {
                              double4(0.0, 0.0, 0.0, 1.0));
         }
 
+        static double3 TranslatePoint(double3 point, double3 translation){
+            auto matrix = Math::TranslationMatrix(translation);
+            return Math::Mul(matrix, double4(point, 1.0)).xyz();
+        }
+
         static double4x4 TRS(double3 translation, double3 rotationRads, double3 scale){
             return Math::Mul(TranslationMatrix(translation),
                              Math::Mul(RotationMatrix(rotationRads), ScaleMatrix(scale)));
