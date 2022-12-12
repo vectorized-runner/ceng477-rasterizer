@@ -51,10 +51,10 @@ namespace Rasterizer {
 
         static double4x4 GetPerspective(double r, double l, double t, double b, double f, double n) {
             return double4x4(
-                    double4(2 * n / (r - l), 0, 0, 0),
-                    double4(0, 2 * n / (t - b), 0, 0),
+                    double4((2 * n) / (r - l), 0, 0, 0),
+                    double4(0, (2 * n) / (t - b), 0, 0),
                     double4((r + l) / (r - l), (t + b) / (t - b), -(f + n) / (f - n), -1),
-                    double4(0, 0, -2 * f * n / (f - n), 0));
+                    double4(0, 0, (-2 * f * n) / (f - n), 0));
         }
 
         static double4x4 GetWorldToCameraMatrix(double3 pos, double3 u, double3 v, double3 w) {
