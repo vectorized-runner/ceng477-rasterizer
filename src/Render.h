@@ -18,11 +18,6 @@ namespace Rasterizer {
 
     struct Render {
 
-        static double TriangleArea(double2 a, double2 b, double2 c){
-            auto res = a.x * (b.y - c.y) + b.x * (c.y - a.y) + c.x * (a.y - b.y);
-            return 0.5 * abs(res);
-        }
-
         static void DrawTriangle(vector<vector<Color>>& output, int2 screen0, int2 screen1, int2 screen2, double3 color0, double3 color1, double3 color2, int2 resolution){
 
             auto minX = Math::Min(screen0.x, Math::Min(screen1.x, screen2.x));
@@ -142,8 +137,6 @@ namespace Rasterizer {
         }
 
         static int2 ViewportToScreenPoint(double2 viewport, int2 res) {
-            // Debug::Assert(abs(viewport.x) <= 1.0, "Viewport X error.");
-            // Debug::Assert(abs(viewport.y) <= 1.0, "Viewport Y error.");
             auto screenX = Math::Remap(viewport.x, -1.0, 1.0, -0.5, res.x - 0.5);
             auto screenY = Math::Remap(viewport.y, -1.0, 1.0, -0.5, res.y - 0.5);
 
@@ -278,7 +271,7 @@ namespace Rasterizer {
         }
 
         static void DrawColor(vector<vector<Color>>& output, int2 screenPos, double3 color, int2 resolution) {
-            // TODO: Poor man's culling, remove this code
+            // Cull
             if(screenPos.x < 0 || screenPos.x >= resolution.x)
                 return;
             if(screenPos.y < 0 || screenPos.y >= resolution.y)

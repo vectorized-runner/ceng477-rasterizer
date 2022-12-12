@@ -103,8 +103,6 @@ void Scene::forwardRenderingPipeline(const Camera& camera) {
             auto screenP1 = Render::ViewportToScreenPoint(viewportP1, resolution);
             auto screenP2 = Render::ViewportToScreenPoint(viewportP2, resolution);
 
-            // TODO: Apply clipping
-
             if (mesh.type == 0) {
                 // Wireframe
                 Render::DrawLine(image, screenP0, screenP1, color0, color1, resolution);
