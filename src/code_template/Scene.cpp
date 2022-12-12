@@ -77,6 +77,8 @@ void Scene::forwardRenderingPipeline(Camera& camera) {
 //    return;
 
     camera.pos = Vec3(0, 0, -60, -1);
+    Render::DrawTriangle(image, mytri1, mycam, int2(resX, resY));
+    Render::DrawTriangle(image, mytri2, mycam, int2(resX, resY));
     camera.u = Vec3(1, 0, 0, -1);
     camera.v = Vec3(0, 1, 0, -1);
     camera.w = Vec3(0, 0, 1, -1);
@@ -163,9 +165,9 @@ void Scene::forwardRenderingPipeline(Camera& camera) {
 
                 cout << "Draw one." << endl;
 
-                Render::DrawLine(image, screenP0, screenP1, color0, color1);
-                Render::DrawLine(image, screenP1, screenP2, color1, color2);
-                Render::DrawLine(image, screenP2, screenP0, color2, color0);
+                Render::DrawLine(image, screenP0, screenP1, color0, color1, int2(resX, resY));
+                Render::DrawLine(image, screenP1, screenP2, color1, color2, int2(resX, resY));
+                Render::DrawLine(image, screenP2, screenP0, color2, color0, int2(resX, resY));
             }
         } else if (mesh.type == 1) {
             // TODO:
