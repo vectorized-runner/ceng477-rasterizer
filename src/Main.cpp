@@ -109,9 +109,6 @@ void SanityCheck(){
 }
 int main(int argc, char *argv[])
 {
-    SanityCheck();
-    return 0;
-
     cout << "Start Running Rasterizer" << endl;
 
     if (argc != 2)
