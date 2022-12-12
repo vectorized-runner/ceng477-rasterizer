@@ -105,8 +105,7 @@ namespace Rasterizer {
         }
 
         __attribute__((always_inline))
-        static double Radians(double x)
-        {
+        static double Radians(double x) {
             return x * 0.0174532925;
         }
 
@@ -125,8 +124,7 @@ namespace Rasterizer {
             return Max(a, Min(b, x));
         }
 
-        static double4x4 Mul(double4x4 a, double4x4 b)
-        {
+        static double4x4 Mul(double4x4 a, double4x4 b) {
             return double4x4(
                     a.c0 * b.c0.x + a.c1 * b.c0.y + a.c2 * b.c0.z + a.c3 * b.c0.w,
                     a.c0 * b.c1.x + a.c1 * b.c1.y + a.c2 * b.c1.z + a.c3 * b.c1.w,
@@ -134,97 +132,94 @@ namespace Rasterizer {
                     a.c0 * b.c3.x + a.c1 * b.c3.y + a.c2 * b.c3.z + a.c3 * b.c3.w);
         }
 
-        static double4 Mul(double4x4 a, double4 b)
-        {
+        static double4 Mul(double4x4 a, double4 b) {
             return a.c0 * b.x + a.c1 * b.y + a.c2 * b.z + a.c3 * b.w;
         }
 
-        static double3 TransformPoint(double4x4 matrix, double3 point){
+        static double3 TransformPoint(double4x4 matrix, double3 point) {
             return Math::Mul(matrix, double4(point, 1.0)).xyz();
         }
 
-        static double4x4 TranslationMatrix(double3 translate){
+        static double4x4 TranslationMatrix(double3 translate) {
             return double4x4(double4(1.0, 0.0, 0.0, 0.0),
                              double4(0.0, 1.0, 0.0, 0.0),
                              double4(0.0, 0.0, 1.0, 0.0),
                              double4(translate.x, translate.y, translate.z, 1.0));
         }
 
-        static double4x4 RotationMatrix(double3 radians){
+        static double4x4 RotationMatrix(double3 radians) {
             return Mul(RotationX(radians.x), Mul(RotationY(radians.y), RotationZ(radians.z)));
         }
 
-        static bool AreEqual(double4x4 a, double4x4 b){
+        static bool AreEqual(double4x4 a, double4x4 b) {
             return AreEqual(a.c0, b.c0) && AreEqual(a.c1, b.c1) && AreEqual(a.c2, b.c2) && AreEqual(a.c3, b.c3);
         }
 
-        static bool AreEqual(double4 a, double4 b){
+        static bool AreEqual(double4 a, double4 b) {
             return AreEqual(a.x, b.x) && AreEqual(a.y, b.y) && AreEqual(a.z, b.z) && AreEqual(a.w, b.w);
         }
 
-        static bool AreEqual(double a, double b){
+        static bool AreEqual(double a, double b) {
             return abs(a - b) < Epsilon;
         }
 
         // Remember: Our matrices are column-based!
-        static double4x4 RotationX(double radX){
+        static double4x4 RotationX(double radX) {
             return double4x4(double4(1.0, 0.0, 0.0, 0.0),
                              double4(0.0, cos(radX), sin(radX), 0.0),
-                             double4(0.0, -sin(radX), cos(radX), 0.0 ),
+                             double4(0.0, -sin(radX), cos(radX), 0.0),
                              double4(0.0, 0.0, 0.0, 1.0));
         }
 
         // Remember: Our matrices are column-based!
-        static double4x4 RotationY(double radY){
+        static double4x4 RotationY(double radY) {
             return double4x4(double4(cos(radY), 0.0, -sin(radY), 0.0),
                              double4(0.0, 1.0, 0.0, 0.0),
-                             double4(sin(radY), 0.0, cos(radY), 0.0 ),
+                             double4(sin(radY), 0.0, cos(radY), 0.0),
                              double4(0.0, 0.0, 0.0, 1.0));
         }
 
         // Remember: Our matrices are column-based!
-        static double4x4 RotationZ(double radZ){
+        static double4x4 RotationZ(double radZ) {
             return double4x4(double4(cos(radZ), sin(radZ), 0.0, 0.0),
                              double4(-sin(radZ), cos(radZ), 0.0, 0.0),
-                             double4(0.0, 0.0, 1.0, 0.0 ),
+                             double4(0.0, 0.0, 1.0, 0.0),
                              double4(0.0, 0.0, 0.0, 1.0));
         }
 
-        static double4x4 ScaleMatrix(double3 scale){
+        static double4x4 ScaleMatrix(double3 scale) {
             return double4x4(double4(scale.x, 0.0, 0.0, 0.0),
                              double4(0.0, scale.y, 0.0, 0.0),
                              double4(0.0, 0.0, scale.z, 0.0),
                              double4(0.0, 0.0, 0.0, 1.0));
         }
 
-        static double3 ScalePoint(double3 point, double3 scale){
+        static double3 ScalePoint(double3 point, double3 scale) {
             auto matrix = Math::ScaleMatrix(scale);
             return Math::Mul(matrix, double4(point, 1.0)).xyz();
         }
 
-        static double3 TranslatePoint(double3 point, double3 translation){
+        static double3 TranslatePoint(double3 point, double3 translation) {
             auto matrix = Math::TranslationMatrix(translation);
             return Math::Mul(matrix, double4(point, 1.0)).xyz();
         }
 
-        static double4x4 TRS(double3 translation, double3 rotationRads, double3 scale){
+        static double4x4 TRS(double3 translation, double3 rotationRads, double3 scale) {
             return Math::Mul(TranslationMatrix(translation),
                              Math::Mul(RotationMatrix(rotationRads), ScaleMatrix(scale)));
         }
 
-        static double3 LocalToWorld(double3 position, double3 translation, double3 rotation, double3 scale){
+        static double3 LocalToWorld(double3 position, double3 translation, double3 rotation, double3 scale) {
             auto res = Math::Mul(TRS(translation, rotation, scale), double4(position.x, position.y, position.z, 1.0));
             return double3(res.x, res.y, res.z);
         }
 
-        static bool IsZero(double v){
+        static bool IsZero(double v) {
             return AreEqual(v, 0.0);
         }
 
-        static double4x4 RotateDegreesAroundAxis(double3 axis, double angle){
+        static double4x4 RotateDegreesAroundAxis(double3 axis, double angle) {
             auto rads = Math::Radians(angle);
-            // Create uvw
-
             auto v = Normalize(axis);
             auto u = Normalize(double3(-v.y, v.x, 0));
             auto w = Normalize(Math::Cross(u, v));
@@ -246,7 +241,7 @@ namespace Rasterizer {
             return Mul(mInverse, Mul(RotationY(rads), m));
         }
 
-        static double Remap(double x, double oldMin, double oldMax, double newMin, double newMax){
+        static double Remap(double x, double oldMin, double oldMax, double newMin, double newMax) {
             return newMin + (x - oldMin) / (oldMax - oldMin) * (newMax - newMin);
         }
     };
