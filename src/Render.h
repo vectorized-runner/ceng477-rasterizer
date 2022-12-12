@@ -68,7 +68,6 @@ namespace Rasterizer {
             return Math::Mul(rotation, translation);
         }
 
-
         static double2 WorldToViewportOrtho(double3 worldPosition, double3 cameraPos, double3 u, double3 v, double3 w,
                                             double r, double l, double t, double b, double f, double n) {
             auto ortho = GetOrthographic(r, l, t, b, f, n);
@@ -94,7 +93,6 @@ namespace Rasterizer {
         }
 
         // TODO: Consider doing with Matrix
-        // TODO: Is clamping by casting the right way?
         static int2 ViewportToScreenPoint(double2 viewport, int2 res) {
             // Debug::Assert(abs(viewport.x) <= 1.0, "Viewport X error.");
             // Debug::Assert(abs(viewport.y) <= 1.0, "Viewport Y error.");
@@ -103,7 +101,7 @@ namespace Rasterizer {
             auto screenY = Math::Remap(viewport.y, -1.0, 1.0, -0.5, res.y - 0.5);
 
             // TODO: Is this the right clamping method?
-            return int2((int)screenX, (int)screenY);
+            return int2((int)round(screenX), (int)round(screenY));
         }
 
         static double4x4 GetLocalToWorldMatrix(
