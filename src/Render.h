@@ -217,26 +217,6 @@ namespace Rasterizer {
             }
         }
 
-        static void Plot(vector<vector<Color>>& output, double3 color0, double3 color1, int2 p0, int2 p1, int2 resolution) {
-            auto x0 = p0.x;
-            auto x1 = p1.x;
-            auto y0 = p0.y;
-            auto y1 = p1.y;
-            if (abs(y1 - y0) < abs(x1 - x0)) {
-                if (x0 > x1) {
-                    PlotLow(output, color1, color0, x1, y1, x0, y0, resolution);
-                } else {
-                    PlotLow(output, color0, color1, x0, y0, x1, y1, resolution);
-                }
-            } else {
-                if (y0 > y1) {
-                    PlotHigh(output, color1, color0, x1, y1, x0, y0, resolution);
-                } else {
-                    PlotHigh(output, color0, color1, x0, y0, x1, y1, resolution);
-                }
-            }
-        }
-
         static void PlotHigh(vector<vector<Color>>& output, double3 color0, double3 color1, int x0, int y0, int x1, int y1, int2 resolution) {
             auto dx = x1 - x0;
             auto dy = y1 - y0;
@@ -266,8 +246,24 @@ namespace Rasterizer {
         }
 
         static void
-        DrawLine(vector<vector<Color>>& output, int2 screenPos0, int2 screenPos1, double3 color0, double3 color1, int2 resolution) {
-            return Plot(output, color0, color1, screenPos0, screenPos1, resolution);
+        DrawLine(vector<vector<Color>>& output, int2 p0, int2 p1, double3 color0, double3 color1, int2 resolution) {
+            auto x0 = p0.x;
+            auto x1 = p1.x;
+            auto y0 = p0.y;
+            auto y1 = p1.y;
+            if (abs(y1 - y0) < abs(x1 - x0)) {
+                if (x0 > x1) {
+                    PlotLow(output, color1, color0, x1, y1, x0, y0, resolution);
+                } else {
+                    PlotLow(output, color0, color1, x0, y0, x1, y1, resolution);
+                }
+            } else {
+                if (y0 > y1) {
+                    PlotHigh(output, color1, color0, x1, y1, x0, y0, resolution);
+                } else {
+                    PlotHigh(output, color0, color1, x0, y0, x1, y1, resolution);
+                }
+            }
         }
 
         static void DrawColor(vector<vector<Color>>& output, int2 screenPos, double3 color, int2 resolution) {
