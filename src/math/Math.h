@@ -220,8 +220,8 @@ namespace Rasterizer {
             auto rads = Math::Radians(angle);
             // Create uvw
             auto u = Normalize(axis);
-            auto v = double3(-u.y, u.x, 0);
-            auto w = Math::Cross(u, v);
+            auto v = Normalize(double3(-u.y, u.x, 0));
+            auto w = Normalize(Math::Cross(u, v));
             Debug::Assert(IsZero(Dot(u, v)), "uvw failed.");
             Debug::Assert(IsZero(Dot(u, w)), "uvw failed.");
 
