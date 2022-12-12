@@ -95,11 +95,23 @@ void SanityCheck(){
     auto orthoResult = Render::WorldToViewportOrtho(point, cameraPosition, u, v, w, r, l, t, b, f, n);
     auto persResult = Render::WorldToViewportPerspective(point, cameraPosition, u, v, w, r, l, t, b, f, n);
 
+    auto p = Render::GetPerspective(r, l, t, b, f, n);
+    auto o = Render::GetOrthographic(r, l, t, b, f, n);
+    auto p2o = Render::P2O(f, n);
+    auto p2 = Math::Mul(o, p2o);
+
+    p.print();
+    p2.print();
+    Debug::Assert(Math::AreEqual(p2, p), "Notequalll");
+
     cout << "Ortho: " << orthoResult.ToString() << endl;
     cout << "Pers: " << persResult.ToString() << endl;
 }
 int main(int argc, char *argv[])
 {
+    SanityCheck();
+    return 0;
+
     cout << "Start Running Rasterizer" << endl;
 
     if (argc != 2)

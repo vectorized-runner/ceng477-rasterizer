@@ -77,6 +77,14 @@ namespace Rasterizer {
             return double2(vec.x, vec.y);
         }
 
+        static double4x4 P2O(double f, double n){
+            return double4x4(
+                    double4(n, 0.0, 0.0, 0.0),
+                    double4(0.0, n, 0.0, 0.0),
+                    double4(0.0, 0.0, f + n, -1),
+                    double4(0.0, 0.0, f * n, 0.0));
+        }
+
         static double2 WorldToViewportPerspective(double3 worldPosition, double3 cameraPos, double3 u, double3 v, double3 w,
                                    double r, double l, double t, double b, double f, double n) {
 
@@ -86,7 +94,6 @@ namespace Rasterizer {
             // Perspective divide
             vec = vec / vec.w;
 
-            // I've added extra negative sign, doesn't work without it
             return double2(vec.x, vec.y);
         }
 
