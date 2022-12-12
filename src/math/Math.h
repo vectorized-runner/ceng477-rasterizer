@@ -134,6 +134,10 @@ namespace Rasterizer {
             return a.c0 * b.x + a.c1 * b.y + a.c2 * b.z + a.c3 * b.w;
         }
 
+        static double3 TransformPoint(double4x4 matrix, double3 point){
+            return Math::Mul(matrix, double4(point, 1.0)).xyz();
+        }
+
         static double4x4 TranslationMatrix(double3 translate){
             return double4x4(double4(1.0, 0.0, 0.0, 0.0),
                              double4(0.0, 1.0, 0.0, 0.0),
@@ -209,7 +213,7 @@ namespace Rasterizer {
         }
 
         static bool IsZero(double v){
-            return abs(v) < Epsilon;
+            return AreEqual(v, 0.0);
         }
 
         static double4x4 RotateDegreesAroundAxis(double3 axis, double angle){
